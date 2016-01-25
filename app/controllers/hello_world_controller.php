@@ -4,11 +4,47 @@
 
     public static function index(){
       // make-metodi renderöi app/views-kansiossa sijaitsevia tiedostoja
-   	  View::make('home.html');
+   	  View::make('helloworld.html');
     }
 
     public static function sandbox(){
       // Testaa koodiasi täällä
-      echo 'Hello World!';
+      View::make('helloworld.html');
     }
+     public static function login(){
+      // Testaa koodiasi täällä
+      View::make('suunnitelmat/login.html');
+    }
+     public static function user(){
+      // Testaa koodiasi täällä
+      View::make('suunnitelmat/user.html');
+    }
+    
+     public static function users(){
+      // Testaa koodiasi täällä
+      View::make('suunnitelmat/users.html');
+    }
+     public static function article(){
+      // Testaa koodiasi täällä
+      View::make('suunnitelmat/article.html');
+    }
+     public static function topic(){
+      // Testaa koodiasi täällä
+      View::make('suunnitelmat/topic.html');
+    }
+     public static function topics(){
+      // Testaa koodiasi täällä
+      View::make('suunnitelmat/topics.html');
+    }
+    
+     public static function group(){
+      // Testaa koodiasi täällä
+      View::make('suunnitelmat/group.html');
+    }
+    
+     public static function groups(){
+      // Testaa koodiasi täällä
+      View::make('suunnitelmat/groups.html');
+    }
+    
   }

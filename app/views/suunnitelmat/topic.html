@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block content %}
+  <h1>Aihe</h1>
+  
+  <p>
+    <a href="#" class="btn btn-success">Lisää kirjoitus</a>
+  </p>
+  
+  <form>
+    <div class="form-group">
+      <label>Otsikko</label>
+      <input type="text" class="form-control" value="">
+    </div>
+    
+    
+    <div class="form-group">
+      <label>Teksti</label>
+      <textarea class="form-control"> Jamma jamma jamma on ne ötökät nannaa, niistä nauttii herkkusuu! Suustani sisään, saatava on lisää. Niihin rakastuuuu-u-u-u-uuuuuu...
+      </textarea>
+    </div>
+    <div class="form-group">
+      <button type="submit" class="btn btn-primary">Tallenna</button>
+    </div>
+  </form>
+   
+  
+  <h2>kirjoitukset</h2>
+  
+  <table class="table table-striped table-bordered">
+    <thead>
+      <tr>
+        <th>Otsikko</th>
+        <th>Kirjoittaja</th>
+        <th>Julkaisupvm</th>
+        <th>Kommenttien määrä</th>
+        <th></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <!-- Listataan aiheet tähän -->
+      <tr>
+        <td><a href="#">Monipuolinen nuudelilounas</a></td>  
+        <td>Pekka-Antero</td>
+        <td><label class="label label-danger">03.03.03</label></td>
+        <td>3</td>
+        <th><a class="btn btn-default btn-sm" href="#">Muokkaa</a></th>
+        <button class="btn btn-danger">Poista</button> <a href="#" class="btn btn-default">Muokkaa</a>
+      </tr>
+    </tbody>
+  </table>
+
+{% endblock %}
