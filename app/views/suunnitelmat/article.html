@@ -1,14 +1,46 @@
 {% extends "base.html" %}
 {% block content %}
-    <h1>Kirjoituksen nimi</h1>
-    
-    <p>sisältö</p>
-    
-   <ul>
+<h1>Kirjoituksen nimi</h1>
+
+<p>sisältö</p>
+
+<ul>
     <li><strong>Julkaisupäivä:</strong> 11.11.2011</li>
     <li><strong>Julkaisija:</strong> Väinö-Ilmari</li>
     <li><strong>Kommentit:</strong> <label class="label label-danger">300</label></li>
     <li><strong>Viimeisin kommentti:</strong> 07.09.1200</li>
-  </ul>
-    
+</ul>
+
+<table class="table table-striped table-bordered">
+    <thead>
+      <tr>
+        <th>Kirjoittaja</th>
+        <th>Aika</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <!-- Listataan aiheet tähän -->
+      <tr>
+        <td>Riki Sorsan veli</td>
+        <td>03.03.03</td>
+      </tr>
+    </tbody>
+  </table>
+
+
+<h4>Lisää kommentti</h4>
+
+<form>
+
+    <div class="form-group">
+        <label>Teksti</label>
+        <textarea class="form-control"> Jamma jamma jamma on ne ötökät nannaa, niistä nauttii herkkusuu! Suustani sisään, saatava on lisää. Niihin rakastuuuu-u-u-u-uuuuuu...
+        </textarea>
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Tallenna</button>
+    </div>
+</form>
+
 {% endblock %}

@@ -30,3 +30,11 @@ CREATE TABLE Kirjoitus(
   published DATE,
   publisher INTEGER REFERENCES Kayttaja(id)
 );
+
+CREATE TABLE Kommentti(
+  id SERIAL PRIMARY KEY,
+  kirjoitus_id INTEGER REFERENCES Kirjoitus(id),
+  content varchar(4000) NOT NULL,
+  published DATE,
+  publisher INTEGER REFERENCES Kayttaja(id)
+);

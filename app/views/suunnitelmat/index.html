@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Uusimmat kirjoitukset</h2>
+
+<table class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>Otsikko</th>
+            <th>Kirjoittaja</th>
+            <th>Julkaisupvm</th>
+            <th>Aihe</th>
+            <th>Kommenttien määrä</th>
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <!-- Listataan aiheet tähän -->
+        <tr>
+            <td><a href="#">Monipuolinen nuudelilounas</a></td>  
+            <td>Pekka-Antero</td>
+            <td><label class="label label-danger">03.03.03</label></td>
+            <td>3</td>
+            <th><a class="btn btn-default btn-sm" href="#">Muokkaa</a></th>
+    <button class="btn btn-danger">Poista</button> <a href="#" class="btn btn-default">Muokkaa</a>
+</tr>
+</tbody>
+</table>
+
+<h2>Omat kirjoitukseni</h2>
+
+<table class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>Otsikko</th>
+            <th>Kirjoittaja</th>
+            <th>Julkaisupvm</th>
+            <th>Aihe</th>
+            <th>Kommenttien määrä</th>
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <!-- Listataan aiheet tähän -->
+        <tr>
+            <td><a href="#">Monipuolinen nuudelilounas</a></td>  
+            <td>Pekka-Antero</td>
+            <td><label class="label label-danger">03.03.03</label></td>
+            <td>3</td>
+            <th><a class="btn btn-default btn-sm" href="#">Muokkaa</a></th>
+    <button class="btn btn-danger">Poista</button> <a href="#" class="btn btn-default">Muokkaa</a>
+</tr>
+</tbody>
+</table>
+
+<ul><li>
+        <h3><a class="btn-btn-success" href="http://sjsarsa.users.cs.helsinki.fi/tsohakeskustelufoorumi/topics">Hae kirjoituksia aiheittain</a></h3>
+    </li> 
+</ul>
+
+{% endblock %}
