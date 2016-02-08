@@ -58,11 +58,11 @@ $routes->get('/kirjoitukset', function() {
     KirjoitusController::listaa();
 });
 
-$routes->get('/group/1', function() {
+$routes->get('/ryhma/1', function() {
     HelloWorldController::group();
 });
 
-$routes->get('/groups', function() {
+$routes->get('/ryhmat', function() {
     HelloWorldController::groups();
 });
 

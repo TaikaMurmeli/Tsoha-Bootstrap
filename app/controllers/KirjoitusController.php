@@ -19,7 +19,7 @@ class KirjoitusController extends BaseController{
         $kirjoitus = new Kirjoitus(array(
             'nimi' => $params['nimi'],
             'sisalto' => $params['sisalto'],
-            'julkaistu' => date('d-m-Y', time())
+            'julkaistu' => date('d-m-Y H:i:s', time())
         ));
 
 //        Kint::dump($params);

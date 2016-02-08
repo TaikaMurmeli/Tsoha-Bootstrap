@@ -63,5 +63,4 @@ class Kirjoitus extends BaseModel{
         $this->id = $row['id'];
     }
 
-
 }
