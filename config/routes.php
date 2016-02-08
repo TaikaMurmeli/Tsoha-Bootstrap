@@ -8,20 +8,28 @@ $routes->get('/hiekkalaatikko', function() {
     HelloWorldController::sandbox();
 });
 
-$routes->get('/topic/1', function() {
-    HelloWorldController::topic();
+$routes->post('/aihe', function() {
+    AiheController::tallenna();
 });
 
-$routes->get('/topics', function() {
-    HelloWorldController::topics();
+$routes->get('/aihe/uusi', function() {
+    AiheController::luo();
+});
+
+$routes->get('/aihe/:id', function($id) {
+    AiheController::nayta($id);
+});
+
+$routes->get('/aiheet', function() {
+    AiheController::listaa();
 });
 
 $routes->post('/kayttaja', function() {
-    KayttajaController::store();
+    KayttajaController::tallenna();
 });
 
 $routes->get('/kayttaja/uusi', function() {
-    KayttajaController::create();
+    KayttajaController::luo();
 });
 
 $routes->get('/kayttaja/:id', function($id) {
@@ -29,12 +37,25 @@ $routes->get('/kayttaja/:id', function($id) {
 });
 
 $routes->get('/kayttajat', function() {
-    KayttajaController::lista();
+    KayttajaController::listaa();
 });
 
 
-$routes->get('/article', function() {
-    HelloWorldController::article();
+
+$routes->post('/kirjoitus', function() {
+    KirjoitusController::tallenna();
+});
+
+$routes->get('/kirjoitus/uusi', function() {
+    KirjoitusController::luo();
+});
+
+$routes->get('/kirjoitus/:id', function($id) {
+    KirjoitusController::nayta($id);
+});
+
+$routes->get('/kirjoitukset', function() {
+    KirjoitusController::listaa();
 });
 
 $routes->get('/group/1', function() {

@@ -2,7 +2,7 @@
 
 class KayttajaController extends BaseController {
 
-    public static function lista() {
+    public static function listaa() {
         $kayttajat = Kayttaja::all();
         View::make('kayttaja/lista.html', array('kayttajat' => $kayttajat));
     }
@@ -12,11 +12,11 @@ class KayttajaController extends BaseController {
         View::make('kayttaja/nayta.html', array('kayttaja' => $kayttaja));
     }
 
-    public static function create() {
+    public static function luo() {
         View::make('kayttaja/uusi.html');
     }
 
-    public static function store() {
+    public static function tallenna() {
         $params = $_POST;
         $kayttaja = new Kayttaja(array(
             'nimi' => $params['nimi'],

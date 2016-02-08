@@ -1,19 +1,19 @@
 {% extends "base.html" %}
 {% block content %}
-<h1>Käyttäjätiedot</h1>
-
-<ul>
-    <li><strong>Nimi:</strong>{{kayttaja.name}}</li>
-    <li><strong>Kirjoitusten määrä:</strong> 9999</li>
-    <li><strong>Kommenttien määrä:</strong> <label class="label label-danger">300</label></li>
-    <li><strong>Viimeisin kirjoitus:</strong> 07.09.1200</li>
-</ul>
-
-<h2>kirjoitukset</h2>
 
 <div class="alert alert-success">
     {{message}}
 </div>
+
+<h1>{{aihe.nimi}}</h1>
+
+<p>{{aihe.kuvaus}}</p>
+
+<p>
+    <a href="{{base_path}}/kirjoitus/uusi" class="btn btn-success">Uusi kirjoitus</a>
+  </p>
+
+<h2>kirjoitukset</h2>
 
 <table class="table table-striped table-bordered">
     <thead>
@@ -31,8 +31,10 @@
             <td><a href="#">Monipuolinen nuudelilounas</a></td>   
             <td><label class="label label-danger">03.03.03</label></td>
             <td>3</td>
-            <th><a class="btn btn-default btn-sm" href="#">Muokkaa</a></th>
-    <button class="btn btn-danger">Poista</button> <a href="#" class="btn btn-default">Muokkaa</a>
+            <th>
+                <a class="btn btn-default btn-sm" href="#">Muokkaa</a>
+                <a class="btn btn-danger btn-sm" href="#">Poista</a>
+            </th>
 </tr>
 </tbody>
 </table>

@@ -1,6 +1,6 @@
 <?php
 
-class Aihe {
+class Aihe extends BaseModel{
 
     public $id, $nimi, $kuvaus;
 
@@ -47,4 +47,14 @@ class Aihe {
 
         return null;
     }
+
+    public function save() {
+        $query = DB::connection()->prepare('INSERT INTO Aihe (nimi, kuvaus) VALUES (:nimi, :kuvaus) RETURNING id');
+        $query->execute(array('nimi' => $this->nimi, 'kuvaus' => $this->kuvaus));
+        $row = $query->fetch();
+//        Kint::trace();
+//        Kint::dump($row);
+        $this->id = $row['id'];
+    }
+
 }

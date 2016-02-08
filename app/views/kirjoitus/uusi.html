@@ -1,16 +1,16 @@
 {% extends "base.html" %}
 {% block content %}
-<h1>Luo uusi käyttäjä</h1>
+<h1>Luo uusi kirjoitus</h1>
 
-<form method="post" action="{{base_path}}/user">
+<form method="post" action="{{base_path}}/kirjoitus">
     <div class="form-group">
-        <label>Nimi</label>
-        <input type="text" name="name" class="form-control">
+        <label>Otsikko</label>
+        <input type="text" name="nimi" class="form-control">
     </div>
 
     <div class="form-group">
-        <label>Salasana</label>
-        <input type="text" name="password" class="form-control">
+        <label>Sisaltö</label>
+        <input type="text" name="sisalto" class="form-control">
     </div>
 
     <div class="form-group">

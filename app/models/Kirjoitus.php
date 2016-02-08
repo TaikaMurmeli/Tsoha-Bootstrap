@@ -1,8 +1,8 @@
 <?php
 
-class Kirjoitus {
+class Kirjoitus extends BaseModel{
 
-    public $id, $aihe_id, $name, $sisalto, $julkaistu, $julkaisija;
+    public $id, $aihe_id, $nimi, $sisalto, $julkaistu, $julkaisija;
 
     public function __construct($attributes) {
         parent::__construct($attributes);
@@ -53,5 +53,15 @@ class Kirjoitus {
 
         return null;
     }
+    
+    public function save() {
+        $query = DB::connection()->prepare('INSERT INTO Kirjoitus (nimi, sisalto, julkaistu, julkaisija) VALUES (:nimi, :sisalto, :julkaistu, :julkaisija) RETURNING id');
+        $query->execute(array('nimi' => $this->nimi, 'sisalto' => $this->sisalto, 'julkaistu' => $this->julkaistu, 'julkaisija' => $this->julkaisija));
+        $row = $query->fetch();
+//        Kint::trace();
+//        Kint::dump($row);
+        $this->id = $row['id'];
+    }
+
 
 }

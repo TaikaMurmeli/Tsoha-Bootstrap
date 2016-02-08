@@ -1,25 +1,25 @@
 <?php
 
 class AiheController extends BaseController{
-    public static function lista() {
+    public static function listaa() {
         $aiheet = Aihe::all();
         View::make('aihe/lista.html', array('aiheet' => $aiheet));
     }
 
     public static function nayta($id) {
-        $aihe = Kayttaja::find($id);
+        $aihe = Aihe::find($id);
         View::make('aihe/nayta.html', array('aihe' => $aihe));
     }
 
-    public static function create() {
+    public static function luo() {
         View::make('aihe/uusi.html');
     }
 
-    public static function store() {
+    public static function tallenna() {
         $params = $_POST;
-        $aihe = new Kayttaja(array(
+        $aihe = new Aihe(array(
             'nimi' => $params['nimi'],
-            'salasana' => $params['salasana']
+            'kuvaus' => $params['kuvaus']
         ));
 
 //        Kint::dump($params);
