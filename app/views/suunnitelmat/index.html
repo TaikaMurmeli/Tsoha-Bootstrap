@@ -15,9 +15,9 @@
     </thead>
 
     <tbody>
-        <!-- Listataan aiheet tähän -->
+        <!--{% for kayttaja in kayttajat %}-->
         <tr>
-            <td><a href="#">Monipuolinen nuudelilounas</a></td>  
+            <td><a href="{{base_path}}/user/{{kayttaja.id}}">{{kayttaja.name}}</a></td>  
             <td>Pekka-Antero</td>
             <td><label class="label label-danger">03.03.03</label></td>
             <td>3</td>
