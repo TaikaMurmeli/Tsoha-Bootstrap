@@ -15,7 +15,7 @@
     </thead>
 
     <tbody>
-        <!--{% for kayttaja in kayttajat %}-->
+        {% for kayttaja in kayttajat %}
         <tr>
             <td><a href="{{base_path}}/user/{{kayttaja.id}}">{{kayttaja.name}}</a></td>  
             <td>Pekka-Antero</td>
@@ -24,6 +24,7 @@
             <th><a class="btn btn-default btn-sm" href="#">Muokkaa</a></th>
     <button class="btn btn-danger">Poista</button> <a href="#" class="btn btn-default">Muokkaa</a>
 </tr>
+{% endfor %}
 </tbody>
 </table>
 

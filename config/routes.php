@@ -3,7 +3,7 @@
 $routes->get('/', function() {
     HelloWorldController::index();
 });
-
+    
 $routes->get('/hiekkalaatikko', function() {
     HelloWorldController::sandbox();
 });
@@ -16,19 +16,19 @@ $routes->get('/topics', function() {
     HelloWorldController::topics();
 });
 
-$routes->post('/user', function() {
+$routes->post('/kayttaja', function() {
     KayttajaController::store();
 });
 
-$routes->get('/user/new', function() {
+$routes->get('/kayttaja/uusi', function() {
     KayttajaController::create();
 });
 
-$routes->get('/user/:id', function($id) {
+$routes->get('/kayttaja/:id', function($id) {
     KayttajaController::nayta($id);
 });
 
-$routes->get('/users', function() {
+$routes->get('/kayttajat', function() {
     KayttajaController::lista();
 });
 

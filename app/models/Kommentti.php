@@ -2,7 +2,7 @@
 
 class Kommentti {
 
-    public $id, $kirjoitus_id, $content, $published, $publisher;
+    public $id, $kirjoitus_id, $sisalto, $julkaistu, $julkaisija;
 
     public function __construct($attributes) {
         parent::__construct($attributes);
@@ -23,9 +23,9 @@ class Kommentti {
             $kommentit[] = new Kommentti(array(
                 'id' => $row['id'],
                 'kirjotus_id' => $row['kirjoitus_id'],
-                'content' => $row['content'],
-                'published' => $row['published'],
-                'publisher' => $row['publisher']
+                'sisalto' => $row['sisalto'],
+                'julkaistu' => $row['julkaistu'],
+                'julkaisija' => $row['julkaisija']
             ));
         }
 
@@ -40,10 +40,10 @@ class Kommentti {
         if ($row) {
             $kommentti = new Kommentti(array(
                 'id' => $row['id'],
-                'kirjoitus_id' => $row['kirjoitus_id'],
-                'content' => $row['content'],
-                'published' => $row['published'],
-                'publisher' => $row['publisher']
+                'kirjotus_id' => $row['kirjoitus_id'],
+                'sisalto' => $row['sisalto'],
+                'julkaistu' => $row['julkaistu'],
+                'julkaisija' => $row['julkaisija']
             ));
 
             return $kommentti;

@@ -3,7 +3,7 @@
     <h1>Käyttäjät</h1>
   
   <p>
-    <a href="{{base_path}}/kayttaja/uusi" class="btn btn-success">Lisää käyttäjä</a>
+    <a href="{{base_path}}/user/new" class="btn btn-success">Lisää käyttäjä</a>
   </p>
   
     
@@ -21,7 +21,7 @@
     <tbody>
       {% for kayttaja in kayttajat %}
       <tr>
-        <td><a href="{{base_path}}/kayttaja/{{kayttaja.id}}">{{kayttaja.nimi}}</a></td>
+        <td><a href="{{base_path}}/user/{{kayttaja.id}}">{{kayttaja.name}}</a></td>
         <td>Vissiin pitäs tehä tähän taulu taulun sisälle</td>
         <td>tähän myös</td>
         <td><label">03.03.03</label></td>

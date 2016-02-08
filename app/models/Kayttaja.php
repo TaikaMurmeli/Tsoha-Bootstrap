@@ -2,7 +2,7 @@
 
 class Kayttaja extends BaseModel {
 
-    public $id, $name, $password;
+    public $id, $nimi, $salasana;
 
     public function __construct($attributes) {
         parent::__construct($attributes);
@@ -22,8 +22,8 @@ class Kayttaja extends BaseModel {
             // Tämä on PHP:n hassu syntaksi alkion lisäämiseksi taulukkoon :)
             $kayttajat[] = new Kayttaja(array(
                 'id' => $row['id'],
-                'name' => $row['name'],
-                'password' => $row['password']
+                'nimi' => $row['nimi'],
+                'salasana' => $row['salasana']
             ));
         }
 
@@ -38,8 +38,8 @@ class Kayttaja extends BaseModel {
         if ($row) {
             $kayttaja = new Kayttaja(array(
                 'id' => $row['id'],
-                'name' => $row['name'],
-                'password' => $row['password']
+                'nimi' => $row['nimi'],
+                'salasana' => $row['salasana']
             ));
 
             return $kayttaja;
@@ -49,8 +49,8 @@ class Kayttaja extends BaseModel {
     }
 
     public function save() {
-        $query = DB::connection()->prepare('INSERT INTO Kayttaja (name, password) VALUES (:name, :password) RETURNING id');
-        $query->execute(array('name' => $this->name, 'password' => $this->password));
+        $query = DB::connection()->prepare('INSERT INTO Kayttaja (nimi, salasana) VALUES (:nimi, :salasana) RETURNING id');
+        $query->execute(array('nimi' => $this->nimi, 'salasana' => $this->salasana));
         $row = $query->fetch();
 //        Kint::trace();
 //        Kint::dump($row);

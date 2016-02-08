@@ -19,14 +19,14 @@ class KayttajaController extends BaseController {
     public static function store() {
         $params = $_POST;
         $kayttaja = new Kayttaja(array(
-            'name' => $params['name'],
-            'password' => $params['password']
+            'nimi' => $params['nimi'],
+            'salasana' => $params['salasana']
         ));
 
 //        Kint::dump($params);
         $kayttaja->save();
 
-        Redirect::to('/user/' . $kayttaja->id, array('message' => 'Uusi kayttaja on lisätty järjestelmään!'));
+        Redirect::to('/kayttaja/' . $kayttaja->id, array('message' => 'Uusi kayttaja on lisätty järjestelmään!'));
     }
 
 }

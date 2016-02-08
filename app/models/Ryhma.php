@@ -22,8 +22,8 @@ class Ryhma {
             // Tämä on PHP:n hassu syntaksi alkion lisäämiseksi taulukkoon :)
             $ryhmat[] = new Kayttaja(array(
                 'id' => $row['id'],
-                'name' => $row['name'],
-                'description' => $row['description']
+                'nimi' => $row['nimi'],
+                'kuvaus' => $row['kuvaus']
             ));
         }
 
@@ -38,8 +38,8 @@ class Ryhma {
         if ($row) {
             $ryhma = new Ryhma(array(
                 'id' => $row['id'],
-                'name' => $row['name'],
-                'description' => $row['description']
+                'nimi' => $row['nimi'],
+                'kuvaus' => $row['kuvaus']
             ));
 
             return $ryhma;

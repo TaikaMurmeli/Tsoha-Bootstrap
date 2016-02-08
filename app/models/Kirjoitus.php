@@ -2,7 +2,7 @@
 
 class Kirjoitus {
 
-    public $id, $aihe_id, $name, $content, $published, $publisher;
+    public $id, $aihe_id, $name, $sisalto, $julkaistu, $julkaisija;
 
     public function __construct($attributes) {
         parent::__construct($attributes);
@@ -23,10 +23,10 @@ class Kirjoitus {
             $kirjoitukset[] = new Kirjoitus(array(
                 'id' => $row['id'],
                 'aihe_id' => $row['aihe_id'],
-                'name' => $row['name'],
-                'content' => $row['content'],
-                'published' => $row['published'],
-                'publisher' => $row['publisher']
+                'nimi' => $row['nimi'],
+                'sisalto' => $row['sisalto'],
+                'julkaistu' => $row['julkaistu'],
+                'julkaisija' => $row['julkaisija']
             ));
         }
 
@@ -42,10 +42,10 @@ class Kirjoitus {
             $kirjoitus = new Kirjoitus(array(
                 'id' => $row['id'],
                 'aihe_id' => $row['aihe_id'],
-                'name' => $row['name'],
-                'content' => $row['content'],
-                'published' => $row['published'],
-                'publisher' => $row['publisher']
+                'nimi' => $row['nimi'],
+                'sisalto' => $row['sisalto'],
+                'julkaistu' => $row['julkaistu'],
+                'julkaisija' => $row['julkaisija']
             ));
 
             return $kirjoitus;

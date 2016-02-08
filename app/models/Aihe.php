@@ -22,8 +22,8 @@ class Aihe {
             // Tämä on PHP:n hassu syntaksi alkion lisäämiseksi taulukkoon :)
             $aiheet[] = new Aihe(array(
                 'id' => $row['id'],
-                'name' => $row['name'],
-                'description' => $row['description']
+                'nimi' => $row['nimi'],
+                'kuvaus' => $row['kuvaus']
             ));
         }
 
@@ -38,8 +38,8 @@ class Aihe {
         if ($row) {
             $aihe = new Aihe(array(
                 'id' => $row['id'],
-                'name' => $row['name'],
-                'description' => $row['description']
+                'nimi' => $row['nimi'],
+                'kuvaus' => $row['kuvaus']
             ));
 
             return $aihe;
