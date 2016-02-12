@@ -1,6 +1,6 @@
 <?php
 
-class Kayttajaryhma {
+class Kayttajaryhma extends BaseModel{
 
     public $kayttaja_id, $ryhma_id;
 

@@ -1,6 +1,6 @@
 <?php
 
-class Kommentti {
+class Kommentti extends BaseModel{
 
     public $id, $kirjoitus_id, $sisalto, $julkaistu, $julkaisija;
 
@@ -50,5 +50,14 @@ class Kommentti {
         }
 
         return null;
+    }
+    
+    public function save() {
+        $query = DB::connection()->prepare('INSERT INTO Kommentti (sisalto, julkaistu, julkaisija) VALUES (:sisalto, :julkaistu, :julkaisija) RETURNING id');
+        $query->execute(array('sisalto' => $this->sisalto, 'julkaistu' => $this->julkaistu, 'julkaisija' => $this->julkaisija));
+        $row = $query->fetch();
+//        Kint::trace();
+//        Kint::dump($row);
+        $this->id = $row['id'];
     }
 }     

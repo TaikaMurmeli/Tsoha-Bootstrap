@@ -57,4 +57,15 @@ class Kayttaja extends BaseModel {
         $this->id = $row['id'];
     }
 
+    public function authenticate($nimi, $salasana) {
+        $query = DB::connection()->prepare('SELECT * FROM Kayttaja WHERE nimi = :nimi AND salasana = :salasana LIMIT 1');
+        $query->execute(array('nimi' => $nimi, 'salasana' => $salasana));
+        $row = $query->fetch();
+        if ($row) {
+            return $row['id'];
+        } else {
+            return null;
+        }
+    }
+
 }

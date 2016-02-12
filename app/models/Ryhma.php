@@ -1,6 +1,6 @@
 <?php
 
-class Ryhma {
+class Ryhma extends BaseModel{
     //put your code here
     public $id, $nimi, $kuvaus;
 
@@ -46,5 +46,14 @@ class Ryhma {
         }
 
         return null;
+    }
+    
+    public function save() {
+        $query = DB::connection()->prepare('INSERT INTO Ryhma (nimi, kuvaus) VALUES (:nimi, :kuvaus) RETURNING id');
+        $query->execute(array('nimi' => $this->nimi, 'kuvaus' => $this->kuvaus));
+        $row = $query->fetch();
+//        Kint::trace();
+//        Kint::dump($row);
+        $this->id = $row['id'];
     }
 }

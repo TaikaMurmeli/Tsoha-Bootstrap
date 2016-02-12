@@ -1,9 +1,9 @@
 {% extends "base.html" %}
 {% block content %}
-    <h1>Käyttäjät</h1>
+    <h1>Ryhmat</h1>
   
   <p>
-    <a href="{{base_path}}/user/new" class="btn btn-success">Lisää käyttäjä</a>
+    <a href="{{base_path}}/ryhma/uusi" class="btn btn-success">Lisää ryhmä</a>
   </p>
   
     
@@ -11,20 +11,16 @@
     <thead>
       <tr>
         <th>Nimi</th>
-        <th>Ryhmät</th>
-        <th>Kirjoitukset</th>
-        <th>Viimeisin aktiivisuus pvm</th>
+        <th>Jäsenten määrä</th>
         <th></th>
       </tr>
     </thead>
 
     <tbody>
-      {% for kayttaja in kayttajat %}
+      {% for ryhma in ryhmat %}
       <tr>
-        <td><a href="{{base_path}}/user/{{kayttaja.id}}">{{kayttaja.name}}</a></td>
-        <td>Vissiin pitäs tehä tähän taulu taulun sisälle</td>
-        <td>tähän myös</td>
-        <td><label">03.03.03</label></td>
+        <td><a href="{{base_path}}/ryhma/{{ryhma.id}}">{{ryhma.nimi}}</a></td>
+        <td>asd</td>
         <th>
             <a class="btn btn-default btn-sm" href="#">Muokkaa</a>
             <a class="btn btn-danger btn-sm" href="#">Poista</a>

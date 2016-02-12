@@ -1,9 +1,8 @@
 {% extends "base.html" %}
 {% block content %}
-<h1>Luo uusi ryhma</h1>
+<h1>Muokkaa kirjoitusta</h1>
 
-
-  {% if errors %}
+{% if errors %}
     <div class="alert alert-danger">
       <ul>
         {% for error in errors %}
@@ -11,17 +10,17 @@
         {% endfor %}
       </ul>
     </div>
-  {% endif %}
-  
-<form method="post" action="{{base_path}}/ryhma">
+{% endif %}
+
+<form method="post" action="{{base_path}}/kirjoitus/paivita/{{attributes.id}}">
     <div class="form-group">
-        <label>Nimi</label>
-        <input type="text" name="nimi" class="form-control">
+        <label>Otsikko</label>
+         <textarea rows="1" name="nimi" class="form-control">{{attributes.sisalto}}</textarea>
     </div>
 
     <div class="form-group">
-        <label>Kuvaus</label>
-        <input type="text" name="kuvaus" class="form-control">
+        <label>Sisaltö</label>
+        <textarea rows="10" name="sisalto" class="form-control">{{attributes.sisalto}}</textarea>
     </div>
 
     <div class="form-group">
