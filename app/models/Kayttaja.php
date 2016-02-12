@@ -2,7 +2,7 @@
 
 class Kayttaja extends BaseModel {
 
-    public $id, $nimi, $salasana;
+    public $id, $nimi, $salasana, $kirjoitukset;
 
     public function __construct($attributes) {
         parent::__construct($attributes);
@@ -23,7 +23,8 @@ class Kayttaja extends BaseModel {
             $kayttajat[] = new Kayttaja(array(
                 'id' => $row['id'],
                 'nimi' => $row['nimi'],
-                'salasana' => $row['salasana']
+                'salasana' => $row['salasana'],
+                'kirjoitukset' => Kirjoitus::findByUser($row['id'])
             ));
         }
 
@@ -41,10 +42,8 @@ class Kayttaja extends BaseModel {
                 'nimi' => $row['nimi'],
                 'salasana' => $row['salasana']
             ));
-
             return $kayttaja;
         }
-
         return null;
     }
 

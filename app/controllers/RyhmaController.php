@@ -2,16 +2,19 @@
 class RyhmaController extends BaseController {
     
     public static function listaa() {
+        self::check_logged_in();
         $ryhmat = Ryhma::all();
         View::make('ryhma/lista.html', array('ryhmat' => $ryhmat));
     }
 
     public static function nayta($id) {
+        self::check_logged_in();
         $ryhma = Ryhma::find($id);
         View::make('ryhma/nayta.html', array('ryhma' => $ryhma));
     }
 
     public static function luo() {
+        self::check_logged_in();
         View::make('ryhma/uusi.html');
     }
 

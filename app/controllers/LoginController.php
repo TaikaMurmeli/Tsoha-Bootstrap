@@ -7,10 +7,17 @@ class LoginController extends BaseController{
     }
     
     public static function index() {
-        $kirjoitukset = Kirjoitus::all();
+//        for ($x = 2; $x <= 6; $x++) {
+//            KirjoitusController::poistaKommentti($x);
+//        } 
+        self::check_logged_in();
+        $kirjoitukset = Kirjoitus::all();     
         $user = self::get_user_logged_in();
+        $omatKirjoitukset = $user->kirjoitukset;
+        
         View::make('suunnitelmat/index.html', array('kirjoitukset' => $kirjoitukset
-                , 'kirjautunut_kayttaja' => $user->nimi));
+                , 'kirjautunut_kayttaja' => $user->nimi,
+                'omatKirjoitukset' => $omatKirjoitukset));
     }
 
     public static function login() {
@@ -28,5 +35,10 @@ class LoginController extends BaseController{
             Redirect::to('/', array('message' => 'Tervetuloa foorumille ' . $user->nimi     . '!'));
         }
     }
+    
+    public static function logout(){
+    $_SESSION['user'] = null;
+    Redirect::to('/login', array('message' => 'Olet kirjautunut ulos!'));
+  }
 
 }

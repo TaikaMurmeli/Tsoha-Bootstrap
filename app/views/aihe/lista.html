@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
+{% import "macros/forms.html" as forms %}
     <h1>Keskusteluaiheet</h1>
   
   <p>
@@ -11,6 +12,7 @@
       <tr>
         <th>Nimi</th>
         <th>Kuvaus</th>
+        <th>Kirjoituksia</th>
         <th></th>
       </tr>
     </thead>
@@ -20,10 +22,11 @@
       <tr>
         <td><a href="{{base_path}}/aihe/{{aihe.id}}">{{aihe.nimi}}</a></td>
         <td>{{aihe.kuvaus}}</td>
+        <td>{{aihe.kirjoituksia}}</td>
         <th>
-            <a class="btn btn-default btn-sm" href="#">Muokkaa</a>
-            <a class="btn btn-danger btn-sm" href="#">Poista</a>
-        </th>
+            {{forms.edit_button("#{base_path}/aihe/muokkaa/#{aihe.id}")}}
+            {{forms.destroy_button("#{base_path}/aihe/poista/#{aihe.id}")}}              
+            </th>
         </tr>
       {% endfor %}
     </tbody>

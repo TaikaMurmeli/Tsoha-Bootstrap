@@ -1,9 +1,20 @@
 {% extends "base.html" %}
 {% block content %}
-
+{% import "macros/forms.html" as forms %}
+{% if errors %}
+    <div class="alert alert-danger">
+      <ul>
+        {% for error in errors %}
+          <li>{{error}}</li>
+        {% endfor %}
+      </ul>
+    </div>
+{% endif %}
+{% if message %}
 <div class="alert alert-success">
     {{message}}
 </div>
+{% endif %}
 
 <h1>{{kirjoitus.nimi}}</h1>
 
@@ -12,32 +23,22 @@
     <li><strong>Aihe:</strong> {{kirjoitus.aihe.nimi}}</li>
     <li><strong>Julkaisija:</strong> {{kirjoitus.julkaisija.nimi}}</li>
     <li><strong>Julkaistu:</strong> {{kirjoitus.julkaistu}}</li>
-    <li><strong>Viimeisin kommentti:</strong> 07.09.1200</li>
+    <li><strong>Kommentteja:</strong>over 8000</li>
 </ul>
 
-<h2>Kommentit</h2>
+<h2>Kommentit:</h2>
 
-<table class="table table-striped table-bordered">
-    <thead>
-        <tr>
-            <th>Kirjoittaja</th>
-            <th>Aika</th>
-        </tr>
-    </thead>
+{% for kommentti in kommentit %}
 
-    <tbody>
-        <!-- Listataan aiheet tähän -->
-        <tr>
-            <td>Riki Sorsan veli</td>
-            <td>03.03.03</td>
-        </tr>
-    <p>Tiätsä kuka mä oon?</p>
-</tbody>
-</table>
-
+    <strong>Julkaisija:</strong> {{kommentti.julkaisija.nimi}}
+    <p>{{kommentti.sisalto}}</p> 
+    <strong>Julkaistu:</strong> {{kommentti.julkaistu}}
+    {{forms.destroy_button("#{base_path}/kommentti/#{kommentti.id}")}} 
+    
+{% endfor %}
 <h4>Lisää kommentti</h4>
 
-<form method="post" action="{{base_path}}/uusikommentti">
+<form method="post" action="{{base_path}}/kommentti">
 
     <div class="form-group">
         <label>Teksti</label>
@@ -45,7 +46,11 @@
         </textarea>
     </div>
     <div class="form-group">
-        <button type="submit" class="btn btn-primary">Tallenna</button>
+        <label></label>
+        <input type="hidden" name="kirjoitus_id" value="{{kirjoitus.id}}" class="form-control">
+    </div>    
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Kommentoi</button>
     </div>
 </form>
 {% endblock %}

@@ -12,6 +12,18 @@ $routes->post('/aihe', function() {
     AiheController::tallenna();
 });
 
+$routes->post('/aihe/paivita/:id', function($id) {
+    AiheController::paivita($id);
+});
+
+$routes->post('/aihe/poista/:id', function($id) {
+    AiheController::poista($id);
+});
+
+$routes->get('/aihe/muokkaa/:id', function($id) {
+    AiheController::muokkaa($id);
+});
+
 $routes->get('/aihe/uusi/', function() {
     AiheController::luo();
 });
@@ -70,6 +82,14 @@ $routes->get('/kirjoitus/muokkaa/:id', function($id) {
     KirjoitusController::muokkaa($id);
 });
 
+$routes->post('/kommentti', function() {
+    KirjoitusController::lisaaKommentti();
+});
+
+
+$routes->post('/kommentti/:id', function($id) {
+    KirjoitusController::poistaKommentti($id);
+});
 
 $routes->get('/login', function() {
     LoginController::show();
@@ -77,6 +97,10 @@ $routes->get('/login', function() {
 
 $routes->post('/login', function() {
     LoginController::login();
+});
+
+$routes->get('/logout', function() {
+    LoginController::logout();
 });
 
 $routes->post('/ryhma', function() {

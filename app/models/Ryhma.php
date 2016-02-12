@@ -6,6 +6,7 @@ class Ryhma extends BaseModel{
 
     public function __construct($attributes) {
         parent::__construct($attributes);
+        $this->validators = array('validate_nimi', 'validate_kuvaus');
     }
 
     public static function all() {
@@ -55,5 +56,13 @@ class Ryhma extends BaseModel{
 //        Kint::trace();
 //        Kint::dump($row);
         $this->id = $row['id'];
+    }
+    
+    public function validate_nimi() {
+        return parent::validate_string('nimi', $this->nimi, 3, 30, true);
+    }
+    public function validate_kuvaus() {
+        $method='validate_string';
+        return $this->{$method}('kuvaus', $this->kuvaus, 5, 200, true);
     }
 }

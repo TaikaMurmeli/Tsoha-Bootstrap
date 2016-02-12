@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
-
+{% import "macros/forms.html" as forms %}
 <div class="alert alert-success">
     {{message}}
 </div>
@@ -13,30 +13,35 @@
     <a href="{{base_path}}/kirjoitus/uusi/{{aihe.id}}" class="btn btn-success">Uusi kirjoitus</a>
 </p>
 
-<h2>kirjoitukset</h2>
-
+<h2>Kirjoitukset:</h2>
+    
 <table class="table table-striped table-bordered">
     <thead>
         <tr>
             <th>Otsikko</th>
-            <th>Julkaisupvm</th>
-            <th>Kommenttien määrä</th>
-            <th></th>
+            <th>Aihe</th>
+            <th>Kommentteja</th>
+            <th>Julkaistu</th>
+            <th>Julkaisija</th>
+             <th></th>
         </tr>
     </thead>
 
     <tbody>
-        <!-- Listataan aiheet tähän -->
+        {% for kirjoitus in kirjoitukset %}
         <tr>
-            <td><a href="#">Monipuolinen nuudelilounas</a></td>   
-            <td><label class="label label-danger">03.03.03</label></td>
-            <td>3</td>
-            <th>
-                <a class="btn btn-default btn-sm" href="#">Muokkaa</a>
-                <a class="btn btn-danger btn-sm" href="#">Poista</a>
+            <td><a href="{{base_path}}/kirjoitus/{{kirjoitus.id}}">{{kirjoitus.nimi}}</a></td>
+            <td>{{kirjoitus.aihe.nimi}}</td>
+            <td>{{kirjoitus.kommentit}}</td>
+            <td>{{kirjoitus.julkaistu}}</td>
+            <td>{{kirjoitus.julkaisija.nimi}}</td>
+            <th>            
+                {{forms.edit_button("#{base_path}/kirjoitus/muokkaa/#{kirjoitus.id}")}}
+                {{forms.destroy_button("#{base_path}/kirjoitus/poista/#{kirjoitus.id}")}}              
             </th>
-</tr>
-</tbody>
+        </tr>
+        {% endfor %}
+    </tbody>
 </table>
 
 {% endblock %}

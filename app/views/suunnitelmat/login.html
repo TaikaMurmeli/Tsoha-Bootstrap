@@ -6,6 +6,12 @@
     {{error}}
 </div>
 {% endif %}
+{% if message %}
+<div class="alert alert-success">
+    {{message}}
+</div>
+{% endif %}
+
 <form method="post" action="{{base_path}}/login">
     
    

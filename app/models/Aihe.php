@@ -2,10 +2,11 @@
 
 class Aihe extends BaseModel{
 
-    public $id, $nimi, $kuvaus;
+    public $id, $nimi, $kuvaus, $kirjoitukset, $kirjoituksia;
 
     public function __construct($attributes) {
         parent::__construct($attributes);
+        $this->validators = array('validate_nimi', 'validate_kuvaus');
     }
 
     public static function all() {
@@ -23,7 +24,9 @@ class Aihe extends BaseModel{
             $aiheet[] = new Aihe(array(
                 'id' => $row['id'],
                 'nimi' => $row['nimi'],
-                'kuvaus' => $row['kuvaus']
+                'kuvaus' => $row['kuvaus'],
+                'kirjoituksia' => sizeof(Kirjoitus::findByCategory($row['id'])),
+                'kirjoitukset' => Kirjoitus::findByCategory($row['id'])
             ));
         }
 
@@ -55,6 +58,31 @@ class Aihe extends BaseModel{
 //        Kint::trace();
 //        Kint::dump($row);
         $this->id = $row['id'];
+    }
+    
+     public function update() {
+        $query = DB::connection()->prepare('UPDATE Aihe SET kuvaus=:kuvaus'
+                . ' WHERE id=:id');
+        $query->execute(array('kuvaus' => $this->kuvaus,
+            'id' =>  $this->id));
+    }
+    
+    public function delete() {
+        
+        $kirjoitukset = Kirjoitus::findByCategory($this->id);
+        foreach ($kirjoitukset as $kirjoitus) {
+            $kirjoitus->delete();
+        } 
+        $query = DB::connection()->prepare("DELETE FROM Aihe WHERE id=:id");
+        $query->execute(array('id' =>  $this->id)); 
+    }
+    
+    public function validate_nimi() {
+        return parent::validate_string('nimi', $this->nimi, 3, 30, true);
+    }
+    public function validate_kuvaus() {
+        $method='validate_string';
+        return $this->{$method}('kuvaus', $this->kuvaus, 5, 200, true);
     }
 
 }

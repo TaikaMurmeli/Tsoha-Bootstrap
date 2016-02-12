@@ -2,7 +2,7 @@
 
 class Kirjoitus extends BaseModel {
 
-    public $id, $aihe, $nimi, $sisalto, $julkaistu, $julkaisija;
+    public $id, $aihe, $nimi, $sisalto, $julkaistu, $julkaisija, $kommentit;
 
     public function __construct($attributes) {
         parent::__construct($attributes);
@@ -22,14 +22,58 @@ class Kirjoitus extends BaseModel {
                 'nimi' => $row['nimi'],
                 'sisalto' => $row['sisalto'],
                 'julkaistu' => $row['julkaistu'],
-                'julkaisija' => Kayttaja::find($row['julkaisija'])
+                'julkaisija' => Kayttaja::find($row['julkaisija']),
+                'kommentit' => sizeof(Kommentti::findByArticle($row['id'])) 
+            ));
+        }
+        return $kirjoitukset;
+    }
+    
+    public static function findByUser($kayttaja_id) {
+        $query = DB::connection()->prepare('SELECT * FROM Kirjoitus '
+                . 'WHERE julkaisija = :julkaisija');
+        $query->execute(array('julkaisija' => $kayttaja_id));
+        $rows = $query->fetchAll();
+        $kirjoitukset = array();
+
+        foreach ($rows as $row) {
+            $kirjoitukset[] = new Kirjoitus(array(
+                'id' => $row['id'],
+                'aihe' => Aihe::find($row['aihe_id']),
+                'nimi' => $row['nimi'],
+                'sisalto' => $row['sisalto'],
+                'julkaistu' => $row['julkaistu'],
+                'julkaisija' => Kayttaja::find($row['julkaisija']),
+                'kommentit' => sizeof(Kommentti::findByArticle($row['id']))    
+            ));
+        }
+        return $kirjoitukset;
+    }
+    
+    public static function findByCategory($aihe_id) {
+        $query = DB::connection()->prepare('SELECT * FROM Kirjoitus '
+                . 'WHERE aihe_id = :aihe_id');
+        $query->execute(array('aihe_id' => $aihe_id));
+        $rows = $query->fetchAll();
+        $kirjoitukset = array();
+
+        foreach ($rows as $row) {
+            $kirjoitukset[] = new Kirjoitus(array(
+                'id' => $row['id'],
+                'aihe' => Aihe::find($row['aihe_id']),
+                'nimi' => $row['nimi'],
+                'sisalto' => $row['sisalto'],
+                'julkaistu' => $row['julkaistu'],
+                'julkaisija' => Kayttaja::find($row['julkaisija']),
+                'kommentit' => sizeof(Kommentti::findByArticle($row['id']))    
             ));
         }
         return $kirjoitukset;
     }
 
     public static function find($id) {
-        $query = DB::connection()->prepare('SELECT * FROM Kirjoitus WHERE id = :id LIMIT 1');
+        $query = DB::connection()->prepare('SELECT * FROM Kirjoitus '
+                . 'WHERE id = :id LIMIT 1');
         $query->execute(array('id' => $id));
         $row = $query->fetch();
 
@@ -77,6 +121,10 @@ class Kirjoitus extends BaseModel {
     }
     
     public function delete() {
+        $kommentit = Kommentti::findByArticle($this->id);
+        foreach ($kommentit as $kommentti) {
+            $kommentti->delete();
+        } 
         $query = DB::connection()->prepare("DELETE FROM Kirjoitus WHERE id=:id");
         $query->execute(array('id' =>  $this->id)); 
     } 

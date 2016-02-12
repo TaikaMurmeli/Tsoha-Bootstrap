@@ -3,11 +3,13 @@
 class KayttajaController extends BaseController {
 
     public static function listaa() {
+        self::check_logged_in();
         $kayttajat = Kayttaja::all();
         View::make('kayttaja/lista.html', array('kayttajat' => $kayttajat));
     }
 
     public static function nayta($id) {
+        self::check_logged_in();
         $kayttaja = Kayttaja::find($id);
         View::make('kayttaja/nayta.html', array('kayttaja' => $kayttaja));
     }
@@ -17,6 +19,7 @@ class KayttajaController extends BaseController {
     }
 
     public static function tallenna() {
+        
         $params = $_POST;
         $kayttaja = new Kayttaja(array(
             'nimi' => $params['nimi'],
