@@ -20,13 +20,20 @@
 
 <p>{{kirjoitus.sisalto}}</p>
 {{forms.edit_button("#{base_path}/kirjoitus/muokkaa/#{kirjoitus.id}")}}
-{{forms.seen_button("#{base_path}/kirjoitus/nahty/#{kirjoitus.id}", "Merkitse luetuksi")}}
+{{forms.seen_button("#{base_path}/kirjoitus/luettu/#{kirjoitus.id}", "Merkitse luetuksi")}}
 <ul>
     <li><strong>Aihe:</strong> {{kirjoitus.aihe.nimi}}</li>
     <li><strong>Julkaisija:</strong> {{kirjoitus.julkaisija.nimi}}</li>
     <li><strong>Julkaistu:</strong> {{kirjoitus.julkaistu}}</li>
     <li><strong>Kommentteja:</strong> {{kirjoitus.kommentteja}}</li>
 </ul>    
+<h4>Kirjoituksen lukeneet käyttäjät:</h4>
+<ul>
+    {% for kayttaja in kirjoitus.lukeneetKayttajat %}
+    <li>{{kayttaja.nimi}}</li>
+    {% endfor %}
+</ul>  
+
 
 <h3>Kommentit:</h3>
 

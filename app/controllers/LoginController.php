@@ -1,23 +1,23 @@
 <?php
 
-class LoginController extends BaseController{
+class LoginController extends BaseController {
 
     public static function show() {
         View::make('suunnitelmat/login.html');
     }
-    
+
     public static function index() {
 //        for ($x = 2; $x <= 6; $x++) {
 //            KirjoitusController::poistaKommentti($x);
 //        } 
         self::check_logged_in();
-        $kirjoitukset = Kirjoitus::all();     
-        $user = self::get_user_logged_in();
-        $omatKirjoitukset = Kirjoitus::findByUser($user->id);
-        
+        $kirjoitukset = Kirjoitus::all();
+        $kayttaja = self::get_user_logged_in();
+        $kayttaja->kirjoitukset = Kirjoitus::findByUser($kayttaja->id);
+        $kayttaja->luetutKirjoitukset = 
+                KirjoituksenLukenutKayttaja::findReadArticlesByUser($kayttaja->id);
         View::make('suunnitelmat/index.html', array('kirjoitukset' => $kirjoitukset
-                , 'kirjautunut_kayttaja' => $user->nimi,
-                'omatKirjoitukset' => $omatKirjoitukset));
+            , 'kayttaja' => $kayttaja));
     }
 
     public static function login() {
@@ -32,13 +32,13 @@ class LoginController extends BaseController{
             $user = Kayttaja::find($userId);
             $_SESSION['user'] = $user->id;
 
-            Redirect::to('/', array('message' => 'Tervetuloa foorumille ' . $user->nimi     . '!'));
+            Redirect::to('/', array('message' => 'Tervetuloa foorumille ' . $user->nimi . '!'));
         }
     }
-    
-    public static function logout(){
-    $_SESSION['user'] = null;
-    Redirect::to('/login', array('message' => 'Olet kirjautunut ulos!'));
-  }
+
+    public static function logout() {
+        $_SESSION['user'] = null;
+        Redirect::to('/login', array('message' => 'Olet kirjautunut ulos!'));
+    }
 
 }

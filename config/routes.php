@@ -77,6 +77,10 @@ $routes->post('/kirjoitus/poista/:id', function($id) {
     KirjoitusController::poista($id);
 });
 
+$routes->post('/kirjoitus/luettu/:id', function($id) {
+    KirjoitusController::merkitseLuetuksi($id);
+});
+
 $routes->get('/kirjoitus/uusi/:id', function($id) {
     KirjoitusController::luo($id);
 });

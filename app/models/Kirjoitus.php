@@ -2,11 +2,21 @@
 
 class Kirjoitus extends BaseModel {
 
-    public $id, $aihe, $nimi, $sisalto, $julkaistu, $julkaisija, $kommentteja;
+    public $id, $aihe, $nimi, $sisalto, $julkaistu, $julkaisija, $kommentteja,
+            $lukeneetKayttajat;
 
     public function __construct($attributes) {
         parent::__construct($attributes);
         $this->validators = array('validate_nimi', 'validate_sisalto');
+    }
+
+    public function validate_nimi() {
+        return parent::validate_string('Otsikko', $this->nimi, 3, 50, true);
+    }
+
+    public function validate_sisalto() {
+        $method = 'validate_string';
+        return $this->{$method}('Sisältö', $this->sisalto, 5, 4000, true);
     }
 
     public static function all() {
@@ -23,12 +33,12 @@ class Kirjoitus extends BaseModel {
                 'sisalto' => $row['sisalto'],
                 'julkaistu' => $row['julkaistu'],
                 'julkaisija' => Kayttaja::find($row['julkaisija']),
-                'kommentteja' => sizeof(Kommentti::findByArticle($row['id'])) 
+                'kommentteja' => sizeof(Kommentti::findByArticle($row['id']))
             ));
         }
         return $kirjoitukset;
     }
-    
+
     public static function findByUser($kayttaja_id) {
         $query = DB::connection()->prepare('SELECT * FROM Kirjoitus '
                 . 'WHERE julkaisija = :julkaisija');
@@ -44,12 +54,12 @@ class Kirjoitus extends BaseModel {
                 'sisalto' => $row['sisalto'],
                 'julkaistu' => $row['julkaistu'],
                 'julkaisija' => Kayttaja::find($row['julkaisija']),
-                'kommentteja' => sizeof(Kommentti::findByArticle($row['id']))    
+                'kommentteja' => sizeof(Kommentti::findByArticle($row['id']))
             ));
         }
         return $kirjoitukset;
     }
-    
+
     public static function findByCategory($aihe_id) {
         $query = DB::connection()->prepare('SELECT * FROM Kirjoitus '
                 . 'WHERE aihe_id = :aihe_id');
@@ -65,11 +75,13 @@ class Kirjoitus extends BaseModel {
                 'sisalto' => $row['sisalto'],
                 'julkaistu' => $row['julkaistu'],
                 'julkaisija' => Kayttaja::find($row['julkaisija']),
-                'kommentteja' => sizeof(Kommentti::findByArticle($row['id']))    
+                'kommentteja' => sizeof(Kommentti::findByArticle($row['id']))
             ));
         }
         return $kirjoitukset;
     }
+    
+   
 
     public static function find($id) {
         $query = DB::connection()->prepare('SELECT * FROM Kirjoitus '
@@ -84,22 +96,13 @@ class Kirjoitus extends BaseModel {
                 'nimi' => $row['nimi'],
                 'sisalto' => $row['sisalto'],
                 'julkaistu' => $row['julkaistu'],
-                'julkaisija' => Kayttaja::find($row['julkaisija'])             
-            )); 
+                'julkaisija' => Kayttaja::find($row['julkaisija'])
+            ));
             return $kirjoitus;
         }
         return null;
     }
 
-    
-    public function validate_nimi() {
-        return parent::validate_string('Otsikko', $this->nimi, 3, 50, true);
-    }
-    public function validate_sisalto() {
-        $method='validate_string';
-        return $this->{$method}('Sisältö', $this->sisalto, 5, 4000, true);
-    }
-    
     public function save() {
         $query = DB::connection()->prepare('INSERT INTO Kirjoitus (aihe_id, nimi, sisalto, '
                 . 'julkaistu, julkaisija) VALUES (:aihe_id, :nimi, :sisalto, :julkaistu,'
@@ -112,20 +115,20 @@ class Kirjoitus extends BaseModel {
 //        Kint::dump($row);
         $this->id = $row['id'];
     }
-    
+
     public function update() {
         $query = DB::connection()->prepare('UPDATE Kirjoitus SET nimi=:nimi,'
                 . ' sisalto=:sisalto WHERE id=:id');
         $query->execute(array('nimi' => $this->nimi, 'sisalto' => $this->sisalto,
-            'id' =>  $this->id));
+            'id' => $this->id));
     }
-    
+
     public function delete() {
         $kommentit = Kommentti::findByArticle($this->id);
         foreach ($kommentit as $kommentti) {
             $kommentti->delete();
-        } 
+        }
         $query = DB::connection()->prepare("DELETE FROM Kirjoitus WHERE id=:id");
-        $query->execute(array('id' =>  $this->id)); 
-    } 
+        $query->execute(array('id' => $this->id));
+    }
 }

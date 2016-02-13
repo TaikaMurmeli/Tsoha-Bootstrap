@@ -8,11 +8,13 @@ class KirjoitusController extends BaseController {
         View::make('kirjoitus/lista.html', array('kirjoitukset' => $kirjoitukset));
     }
 
-    public static function nayta($id) {
+    public static function nayta($kirjoitus_id) {
         self::check_logged_in();
-        $kirjoitus = Kirjoitus::find($id);
-        $kommentit = Kommentti::findByArticle($id);
+        $kirjoitus = Kirjoitus::find($kirjoitus_id);
+        $kommentit = Kommentti::findByArticle($kirjoitus_id);
         $kirjoitus->kommentteja = sizeof($kommentit);
+        $kirjoitus->lukeneetKayttajat = 
+                KirjoituksenLukenutKayttaja::findReadersByArticle($kirjoitus_id);
         View::make('kirjoitus/nayta.html', array('kirjoitus' => $kirjoitus,
             'kommentit' => $kommentit));
     }
@@ -111,5 +113,14 @@ class KirjoitusController extends BaseController {
                     array('errors' => $errors));
         }
     }
-
+    
+    public static function merkitseLuetuksi($kirjoitus_id) {
+        $lukija = new KirjoituksenLukenutKayttaja(array(
+            'kirjoitus_id' => $kirjoitus_id,
+            'kayttaja_id' => self::get_user_logged_in()->id
+        ));
+        $lukija->save();
+        Redirect::to('/kirjoitus/' . $kirjoitus_id, array('message' => 
+               'Kirjoitus merkattu luetuksi!'));
+    }
 }

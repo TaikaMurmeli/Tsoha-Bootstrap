@@ -2,11 +2,20 @@
 
 class Kayttaja extends BaseModel {
 
-    public $id, $nimi, $salasana, $kirjoitukset, $kirjoituksia, $kommentteja;
+    public $id, $nimi, $salasana, $kirjoitukset, $kirjoituksia, $kommentteja,
+            $luetutKirjoitukset;
 
     public function __construct($attributes) {
         parent::__construct($attributes);
         $this->validators = array('validate_nimi', 'validate_salasana');
+    }
+    
+    public function validate_nimi() {
+        return parent::validate_string('Nimi', $this->nimi, 5, 20, true);
+    }
+    public function validate_salasana() {
+        $method='validate_string';
+        return $this->{$method}('Salasana', $this->salasana, 6, 30, true);
     }
 
     public static function all() {
@@ -24,7 +33,6 @@ class Kayttaja extends BaseModel {
             $kayttaja = new Kayttaja(array(
                 'id' => $row['id'],
                 'nimi' => $row['nimi'],
-                'salasana' => $row['salasana'],
                 'kirjoitukset' => Kirjoitus::findByUser($row['id'])
             ));
             $kayttaja->kirjoituksia = sizeof($kayttaja->kirjoitukset);
@@ -42,8 +50,7 @@ class Kayttaja extends BaseModel {
         if ($row) {
             $kayttaja = new Kayttaja(array(
                 'id' => $row['id'],
-                'nimi' => $row['nimi'],
-                'salasana' => $row['salasana'],
+                'nimi' => $row['nimi']
 //                'kirjoitukset' => Kirjoitus::findByUser($row['id'])
             ));
 //            $kayttaja->kirjoituksia = sizeof($kayttaja->kirjoitukset);
@@ -87,12 +94,4 @@ class Kayttaja extends BaseModel {
         $query = DB::connection()->prepare("DELETE FROM Kayttaja WHERE id=:id");
         $query->execute(array('id' =>  $this->id)); 
     }
-    public function validate_nimi() {
-        return parent::validate_string('Nimi', $this->nimi, 5, 20, true);
-    }
-    public function validate_salasana() {
-        $method='validate_string';
-        return $this->{$method}('Salasana', $this->salasana, 6, 30, true);
-    }
-
 }

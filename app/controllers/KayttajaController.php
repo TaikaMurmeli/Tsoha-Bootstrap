@@ -14,6 +14,8 @@ class KayttajaController extends BaseController {
         $kayttaja->kirjoitukset=Kirjoitus::findByUser($kayttaja->id);
         $kayttaja->kirjoituksia=sizeof($kayttaja->kirjoitukset);
         $kayttaja->kommentteja=sizeof(Kommentti::findByUser($kayttaja->id));
+        $kayttaja->luetutKirjoitukset = 
+                KirjoituksenLukenutKayttaja::findReadArticlesByUser($kayttaja->id);
         View::make('kayttaja/nayta.html', array('kayttaja' => $kayttaja));
     }
 
