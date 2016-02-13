@@ -40,7 +40,7 @@ class BaseModel {
         }
 
         if (strlen($string) > $maxLength) {
-            $errors[] = "Kentän \"{$kentta}\" pituuden tulee olla enintään {$minLength} merkkiä!";
+            $errors[] = "Kentän \"{$kentta}\" pituuden tulee olla enintään {$maxLength} merkkiä!";
         }
 
         return $errors;

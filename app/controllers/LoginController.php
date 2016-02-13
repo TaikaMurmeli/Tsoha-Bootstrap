@@ -13,7 +13,7 @@ class LoginController extends BaseController{
         self::check_logged_in();
         $kirjoitukset = Kirjoitus::all();     
         $user = self::get_user_logged_in();
-        $omatKirjoitukset = $user->kirjoitukset;
+        $omatKirjoitukset = Kirjoitus::findByUser($user->id);
         
         View::make('suunnitelmat/index.html', array('kirjoitukset' => $kirjoitukset
                 , 'kirjautunut_kayttaja' => $user->nimi,

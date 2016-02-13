@@ -29,8 +29,16 @@ class AiheController extends BaseController{
 
 //        Kint::dump($params);
         $aihe->save();
-
-        Redirect::to('/aihe/' . $aihe->id, array('message' => 'Uusi aihe on lisätty järjestelmään!'));
+        $errors = $aihe->errors();
+        if (count($errors) == 0) {
+            $aihe->save();
+            Redirect::to('/aihe/' . $aihe->id, 
+                    array('message' => 'Uusi aihe on luotu!'));
+        } else {
+            
+            View::make('aihe/uusi.html', 
+                    array('errors' => $errors));
+        }
     }
     
     public static function muokkaa($id) {

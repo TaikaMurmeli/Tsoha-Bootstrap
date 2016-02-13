@@ -2,13 +2,13 @@
 {% block content %}
 {% import "macros/forms.html" as forms %}
 {% if errors %}
-    <div class="alert alert-danger">
-      <ul>
+<div class="alert alert-danger">
+    <ul>
         {% for error in errors %}
-          <li>{{error}}</li>
+        <li>{{error}}</li>
         {% endfor %}
-      </ul>
-    </div>
+    </ul>
+</div>
 {% endif %}
 {% if message %}
 <div class="alert alert-success">
@@ -19,24 +19,29 @@
 <h1>{{kirjoitus.nimi}}</h1>
 
 <p>{{kirjoitus.sisalto}}</p>
+{{forms.edit_button("#{base_path}/kirjoitus/muokkaa/#{kirjoitus.id}")}}
+{{forms.seen_button("#{base_path}/kirjoitus/nahty/#{kirjoitus.id}", "Merkitse luetuksi")}}
 <ul>
     <li><strong>Aihe:</strong> {{kirjoitus.aihe.nimi}}</li>
     <li><strong>Julkaisija:</strong> {{kirjoitus.julkaisija.nimi}}</li>
     <li><strong>Julkaistu:</strong> {{kirjoitus.julkaistu}}</li>
-    <li><strong>Kommentteja:</strong>over 8000</li>
-</ul>
+    <li><strong>Kommentteja:</strong> {{kirjoitus.kommentteja}}</li>
+</ul>    
 
-<h2>Kommentit:</h2>
+<h3>Kommentit:</h3>
 
 {% for kommentti in kommentit %}
 
-    <strong>Julkaisija:</strong> {{kommentti.julkaisija.nimi}}
-    <p>{{kommentti.sisalto}}</p> 
-    <strong>Julkaistu:</strong> {{kommentti.julkaistu}}
-    {{forms.destroy_button("#{base_path}/kommentti/#{kommentti.id}")}} 
-    
+<strong>Julkaisija:</strong> {{kommentti.julkaisija.nimi}}
+<p>{{kommentti.sisalto}}</p> 
+<strong>Julkaistu:</strong> {{kommentti.julkaistu}}
+{{forms.seen_button("#{base_path}/kommentti/nahty/#{kommentti.id}")}}
+{{forms.destroy_button("#{base_path}/kommentti/#{kommentti.id}")}} 
 {% endfor %}
-<h4>Lisää kommentti</h4>
+
+<br>
+<br>
+<h4>Lisää kommentti:</h4>
 
 <form method="post" action="{{base_path}}/kommentti">
 

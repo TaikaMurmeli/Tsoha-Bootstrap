@@ -38,3 +38,8 @@ CREATE TABLE Kommentti(
   julkaistu DATE,
   julkaisija INTEGER REFERENCES Kayttaja(id)
 );
+
+CREATE TABLE KirjoituksenLukenutKayttaja(
+  kirjoitus_id INTEGER REFERENCES Kirjoitus(id),
+  kayttaja_id INTEGER REFERENCES Kayttaja(id)
+);

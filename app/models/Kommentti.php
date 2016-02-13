@@ -1,6 +1,6 @@
 <?php
 
-class Kommentti extends BaseModel{
+class Kommentti extends BaseModel {
 
     public $id, $kirjoitus, $sisalto, $julkaistu, $julkaisija;
 
@@ -34,6 +34,34 @@ class Kommentti extends BaseModel{
         return $kommentit;
     }
 
+    public static function findByUser($kayttaja_id) {
+        // Alustetaan kysely tietokantayhteydellämme
+        $query = DB::connection()->prepare('SELECT * FROM Kommentti '
+                . 'WHERE julkaisija = :kayttaja_id');
+        // Suoritetaan kysely
+        $query->execute(array('kayttaja_id' => $kayttaja_id));
+        // Haetaan kyselyn tuottamat rivit
+        $rows = $query->fetchAll();
+        $kommentit = array();
+
+        // Käydään kyselyn tuottamat rivit läpi
+        foreach ($rows as $row) {
+            // Tämä on PHP:n hassu syntaksi alkion lisäämiseksi taulukkoon :)
+            $kommentit[] = new Kommentti(array(
+                'id' => $row['id']
+//                Tällä hetkellä tarvitsee tietää vain 
+//                käyttäjän kommenttien määrä.
+//                        
+//                'kirjoitus' => Kirjoitus::find($row['kirjoitus_id']),
+//                'sisalto' => $row['sisalto'],
+//                'julkaistu' => $row['julkaistu'],
+//                'julkaisija' => Kayttaja::find($row['julkaisija'])
+            ));
+        }
+
+        return $kommentit;
+    }
+
     public static function find($id) {
         $query = DB::connection()->prepare('SELECT * FROM Kommentti '
                 . 'WHERE id = :id LIMIT 1');
@@ -52,13 +80,13 @@ class Kommentti extends BaseModel{
         }
         return null;
     }
-    
+
     public function save() {
         $query = DB::connection()->prepare('INSERT INTO Kommentti (kirjoitus_id,'
                 . ' sisalto, julkaistu, julkaisija) '
                 . 'VALUES (:kirjoitus_id, :sisalto, :julkaistu, :julkaisija)'
                 . ' RETURNING id');
-        $query->execute(array('kirjoitus_id'=> $this->kirjoitus,
+        $query->execute(array('kirjoitus_id' => $this->kirjoitus,
             'sisalto' => $this->sisalto, 'julkaistu' => $this->julkaistu,
             'julkaisija' => $this->julkaisija));
         $row = $query->fetch();
@@ -66,14 +94,15 @@ class Kommentti extends BaseModel{
 //        Kint::dump($row);
         $this->id = $row['id'];
     }
-    
+
     public function delete() {
         $query = DB::connection()->prepare("DELETE FROM Kommentti WHERE id=:id");
-        $query->execute(array('id' =>  $this->id)); 
-    } 
-    
+        $query->execute(array('id' => $this->id));
+    }
+
     public function validate_teksti() {
-        $method='validate_string';
+        $method = 'validate_string';
         return $this->{$method}('Teksti', $this->sisalto, 5, 4000, true);
     }
-}     
+
+}

@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Vaihda salasana</h1>
+
+{% if errors %}
+    <div class="alert alert-danger">
+      <ul>
+        {% for error in errors %}
+          <li>{{error}}</li>
+        {% endfor %}
+      </ul>
+    </div>
+{% endif %}
+
+<h2>Muokkaat käyttäjää: {{kayttaja.nimi}}</h2>
+<form method="post" action="{{base_path}}/kayttaja/paivita/{{kayttaja.id}}">
+    <input class="form-group" name ="nimi" type="hidden" value="{{kayttaja.nimi}}">
+    <input class="form-group" name ="id" type="hidden" value="{{kayttaja.id}}">
+    <div class="form-group">
+        <label>Anna uusi salasana:</label>
+        <textarea rows="1" name="salasana" class="form-control"></textarea>
+    </div>
+
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Tallenna muutokset</button>
+    </div>
+</form>
+
+{% endblock %}

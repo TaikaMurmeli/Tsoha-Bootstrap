@@ -2,7 +2,7 @@
 
 class Kirjoitus extends BaseModel {
 
-    public $id, $aihe, $nimi, $sisalto, $julkaistu, $julkaisija, $kommentit;
+    public $id, $aihe, $nimi, $sisalto, $julkaistu, $julkaisija, $kommentteja;
 
     public function __construct($attributes) {
         parent::__construct($attributes);
@@ -23,7 +23,7 @@ class Kirjoitus extends BaseModel {
                 'sisalto' => $row['sisalto'],
                 'julkaistu' => $row['julkaistu'],
                 'julkaisija' => Kayttaja::find($row['julkaisija']),
-                'kommentit' => sizeof(Kommentti::findByArticle($row['id'])) 
+                'kommentteja' => sizeof(Kommentti::findByArticle($row['id'])) 
             ));
         }
         return $kirjoitukset;
@@ -44,7 +44,7 @@ class Kirjoitus extends BaseModel {
                 'sisalto' => $row['sisalto'],
                 'julkaistu' => $row['julkaistu'],
                 'julkaisija' => Kayttaja::find($row['julkaisija']),
-                'kommentit' => sizeof(Kommentti::findByArticle($row['id']))    
+                'kommentteja' => sizeof(Kommentti::findByArticle($row['id']))    
             ));
         }
         return $kirjoitukset;
@@ -65,7 +65,7 @@ class Kirjoitus extends BaseModel {
                 'sisalto' => $row['sisalto'],
                 'julkaistu' => $row['julkaistu'],
                 'julkaisija' => Kayttaja::find($row['julkaisija']),
-                'kommentit' => sizeof(Kommentti::findByArticle($row['id']))    
+                'kommentteja' => sizeof(Kommentti::findByArticle($row['id']))    
             ));
         }
         return $kirjoitukset;
@@ -84,8 +84,8 @@ class Kirjoitus extends BaseModel {
                 'nimi' => $row['nimi'],
                 'sisalto' => $row['sisalto'],
                 'julkaistu' => $row['julkaistu'],
-                'julkaisija' => Kayttaja::find($row['julkaisija'])
-            ));
+                'julkaisija' => Kayttaja::find($row['julkaisija'])             
+            )); 
             return $kirjoitus;
         }
         return null;

@@ -2,10 +2,11 @@
 
 class Kayttaja extends BaseModel {
 
-    public $id, $nimi, $salasana, $kirjoitukset;
+    public $id, $nimi, $salasana, $kirjoitukset, $kirjoituksia, $kommentteja;
 
     public function __construct($attributes) {
         parent::__construct($attributes);
+        $this->validators = array('validate_nimi', 'validate_salasana');
     }
 
     public static function all() {
@@ -20,12 +21,14 @@ class Kayttaja extends BaseModel {
         // Käydään kyselyn tuottamat rivit läpi
         foreach ($rows as $row) {
             // Tämä on PHP:n hassu syntaksi alkion lisäämiseksi taulukkoon :)
-            $kayttajat[] = new Kayttaja(array(
+            $kayttaja = new Kayttaja(array(
                 'id' => $row['id'],
                 'nimi' => $row['nimi'],
                 'salasana' => $row['salasana'],
                 'kirjoitukset' => Kirjoitus::findByUser($row['id'])
             ));
+            $kayttaja->kirjoituksia = sizeof($kayttaja->kirjoitukset);
+            $kayttajat[] = $kayttaja;
         }
 
         return $kayttajat;
@@ -40,8 +43,10 @@ class Kayttaja extends BaseModel {
             $kayttaja = new Kayttaja(array(
                 'id' => $row['id'],
                 'nimi' => $row['nimi'],
-                'salasana' => $row['salasana']
+                'salasana' => $row['salasana'],
+//                'kirjoitukset' => Kirjoitus::findByUser($row['id'])
             ));
+//            $kayttaja->kirjoituksia = sizeof($kayttaja->kirjoitukset);
             return $kayttaja;
         }
         return null;
@@ -65,6 +70,29 @@ class Kayttaja extends BaseModel {
         } else {
             return null;
         }
+    }
+    
+    public function update() {
+        $query = DB::connection()->prepare('UPDATE Kayttaja SET salasana=:salasana'
+                . 'WHERE id=:id');
+        $query->execute(array('salasana' => $this->salasana,
+            'id' =>  $this->id));
+    }
+    
+    public function delete() {
+        $kirjoitukset = Kirjoitus::findByUser($this->id);
+        foreach ($kirjoitukset as $kirjoitus) {
+            $kirjoitus->delete();
+        } 
+        $query = DB::connection()->prepare("DELETE FROM Kayttaja WHERE id=:id");
+        $query->execute(array('id' =>  $this->id)); 
+    }
+    public function validate_nimi() {
+        return parent::validate_string('Nimi', $this->nimi, 5, 20, true);
+    }
+    public function validate_salasana() {
+        $method='validate_string';
+        return $this->{$method}('Salasana', $this->salasana, 6, 30, true);
     }
 
 }

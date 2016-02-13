@@ -12,7 +12,7 @@ class KirjoitusController extends BaseController {
         self::check_logged_in();
         $kirjoitus = Kirjoitus::find($id);
         $kommentit = Kommentti::findByArticle($id);
-        
+        $kirjoitus->kommentteja = sizeof($kommentit);
         View::make('kirjoitus/nayta.html', array('kirjoitus' => $kirjoitus,
             'kommentit' => $kommentit));
     }

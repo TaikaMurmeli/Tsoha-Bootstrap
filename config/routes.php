@@ -40,6 +40,18 @@ $routes->post('/kayttaja', function() {
     KayttajaController::tallenna();
 });
 
+$routes->post('/kayttaja/paivita/:id', function($id) {
+    KayttajaController::paivita($id);
+});
+
+$routes->post('/kayttaja/poista/:id', function($id) {
+    KayttajaController::poista($id);
+});
+
+$routes->get('/kayttaja/muokkaa/:id', function($id) {
+    KayttajaController::muokkaa($id);
+});
+
 $routes->get('/kayttaja/uusi', function() {
     KayttajaController::luo();
 });

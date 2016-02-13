@@ -8,4 +8,12 @@
 <form method="get" action="{{action}}" style="display: inline-block;">
     <button type="submit" class="btn btn-default btn-sm">{{text|default('Muokkaa')}}</button>
 </form>
+
+{% endmacro %}
+
+{% macro seen_button(action, text) %}
+<form method="post" action="{{action}}" style="display: inline-block;">
+    <button type="submit" class="btn btn-sm btn-sm">{{text|default('Merkitse nähdyksi')}}</button>
+</form>
+
 {% endmacro %}
