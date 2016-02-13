@@ -3,13 +3,13 @@ class RyhmaController extends BaseController {
     
     public static function listaa() {
         self::check_logged_in();
-        $ryhmat = Ryhma::all();
+        $ryhmat = Ryhma::haeKaikki();
         View::make('ryhma/lista.html', array('ryhmat' => $ryhmat));
     }
 
     public static function nayta($id) {
         self::check_logged_in();
-        $ryhma = Ryhma::find($id);
+        $ryhma = Ryhma::hae($id);
         View::make('ryhma/nayta.html', array('ryhma' => $ryhma));
     }
 
@@ -26,7 +26,7 @@ class RyhmaController extends BaseController {
         ));
 
 //        Kint::dump($params);
-        $ryhma->save();
+        $ryhma->tallenna();
 
         Redirect::to('/ryhma/' . $ryhma->id, array('message' => 'Uusi ryhmä on lisätty järjestelmään!'));
     }

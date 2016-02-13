@@ -108,7 +108,7 @@ $routes->post('/kommentti/:id', function($id) {
 });
 
 $routes->get('/login', function() {
-    LoginController::show();
+    LoginController::nayta();
 });
 
 $routes->post('/login', function() {

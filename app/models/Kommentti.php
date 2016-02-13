@@ -9,7 +9,7 @@ class Kommentti extends BaseModel {
         $this->validators = array('validate_teksti');
     }
 
-    public static function findByArticle($kirjoitus_id) {
+    public static function haeKirjoituksella($kirjoitus_id) {
         // Alustetaan kysely tietokantayhteydellämme
         $query = DB::connection()->prepare('SELECT * FROM Kommentti '
                 . 'WHERE kirjoitus_id = :kirjoitus_id');
@@ -24,17 +24,17 @@ class Kommentti extends BaseModel {
             // Tämä on PHP:n hassu syntaksi alkion lisäämiseksi taulukkoon :)
             $kommentit[] = new Kommentti(array(
                 'id' => $row['id'],
-                'kirjoitus' => Kirjoitus::find($row['kirjoitus_id']),
+                'kirjoitus' => Kirjoitus::hae($row['kirjoitus_id']),
                 'sisalto' => $row['sisalto'],
                 'julkaistu' => $row['julkaistu'],
-                'julkaisija' => Kayttaja::find($row['julkaisija'])
+                'julkaisija' => Kayttaja::hae($row['julkaisija'])
             ));
         }
 
         return $kommentit;
     }
 
-    public static function findByUser($kayttaja_id) {
+    public static function haeKayttajalla($kayttaja_id) {
         // Alustetaan kysely tietokantayhteydellämme
         $query = DB::connection()->prepare('SELECT * FROM Kommentti '
                 . 'WHERE julkaisija = :kayttaja_id');
@@ -62,7 +62,7 @@ class Kommentti extends BaseModel {
         return $kommentit;
     }
 
-    public static function find($id) {
+    public static function hae($id) {
         $query = DB::connection()->prepare('SELECT * FROM Kommentti '
                 . 'WHERE id = :id LIMIT 1');
         $query->execute(array('id' => $id));
@@ -71,17 +71,17 @@ class Kommentti extends BaseModel {
         if ($row) {
             $kommentti = new Kommentti(array(
                 'id' => $row['id'],
-                'kirjoitus' => Kirjoitus::find($row['kirjoitus_id']),
+                'kirjoitus' => Kirjoitus::hae($row['kirjoitus_id']),
                 'sisalto' => $row['sisalto'],
                 'julkaistu' => $row['julkaistu'],
-                'julkaisija' => Kayttaja::find($row['julkaisija'])
+                'julkaisija' => Kayttaja::hae($row['julkaisija'])
             ));
             return $kommentti;
         }
         return null;
     }
 
-    public function save() {
+    public function tallenna() {
         $query = DB::connection()->prepare('INSERT INTO Kommentti (kirjoitus_id,'
                 . ' sisalto, julkaistu, julkaisija) '
                 . 'VALUES (:kirjoitus_id, :sisalto, :julkaistu, :julkaisija)'
@@ -95,7 +95,7 @@ class Kommentti extends BaseModel {
         $this->id = $row['id'];
     }
 
-    public function delete() {
+    public function poista() {
         $query = DB::connection()->prepare("DELETE FROM Kommentti WHERE id=:id");
         $query->execute(array('id' => $this->id));
     }

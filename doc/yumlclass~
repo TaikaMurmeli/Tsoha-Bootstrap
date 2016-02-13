@@ -1,4 +1,10 @@
 
-[Aihe]<>-*>[Kirjoitus]
-[Peruskäyttäjä]<*-*>[Ryhmä]
-[Peruskäyttäjä]++-*>[Kirjoitus]
+[Aihe]<>-*[Kirjoitus]
+[Peruskäyttäjä]*-*[Ryhmä]
+[Peruskäyttäjä]++-*[Kirjoitus]
+
+[Aihe]++-*[Kirjoitus]
+[Käyttäjä]*-[Ryhmä]
+[Käyttäjä]++*-*[Kirjoitus]
+[Kommentti]*-++[Kirjoitus]
+[Kirjoitus]-[note:  Näkee kaikki sen lukeneet käyttäjät vaikka kuuluu vain yhdelle{bg:cornsilk}]

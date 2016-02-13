@@ -14,6 +14,7 @@
         <th>Nimi</th>
         <th>Ryhmät</th>
         <th>Kirjoitukset</th>
+        <th>Kommentit</th>
         <th></th>
       </tr>
     </thead>
@@ -24,6 +25,7 @@
         <td><a href="{{base_path}}/kayttaja/{{kayttaja.id}}">{{kayttaja.nimi}}</a></td>
         <td>Jaa</td>
         <td>{{kayttaja.kirjoituksia}}</td>
+        <td>{{kayttaja.kommentteja}}</td>
         <th>
             {{forms.edit_button("#{base_path}/kayttaja/muokkaa/#{kayttaja.id}")}}
             {{forms.destroy_button("#{base_path}/kayttaja/poista/#{kayttaja.id}")}} 

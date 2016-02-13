@@ -2,7 +2,7 @@
 
 class LoginController extends BaseController {
 
-    public static function show() {
+    public static function nayta() {
         View::make('suunnitelmat/login.html');
     }
 
@@ -11,11 +11,11 @@ class LoginController extends BaseController {
 //            KirjoitusController::poistaKommentti($x);
 //        } 
         self::check_logged_in();
-        $kirjoitukset = Kirjoitus::all();
+        $kirjoitukset = Kirjoitus::haeKaikki();
         $kayttaja = self::get_user_logged_in();
-        $kayttaja->kirjoitukset = Kirjoitus::findByUser($kayttaja->id);
+        $kayttaja->kirjoitukset = Kirjoitus::haeKayttajalla($kayttaja->id);
         $kayttaja->luetutKirjoitukset = 
-                KirjoituksenLukenutKayttaja::findReadArticlesByUser($kayttaja->id);
+                KirjoituksenLukenutKayttaja::haeLuetutKayttajalla($kayttaja->id);
         View::make('suunnitelmat/index.html', array('kirjoitukset' => $kirjoitukset
             , 'kayttaja' => $kayttaja));
     }
@@ -29,7 +29,7 @@ class LoginController extends BaseController {
             View::make('suunnitelmat/login.html', array('error' => 'Väärä käyttäjätunnus'
                 . ' tai salasana!', 'nimi' => $params['nimi']));
         } else {
-            $user = Kayttaja::find($userId);
+            $user = Kayttaja::hae($userId);
             $_SESSION['user'] = $user->id;
 
             Redirect::to('/', array('message' => 'Tervetuloa foorumille ' . $user->nimi . '!'));

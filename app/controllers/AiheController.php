@@ -3,14 +3,14 @@
 class AiheController extends BaseController{
     public static function listaa() {
         self::check_logged_in();
-        $aiheet = Aihe::all();
+        $aiheet = Aihe::haeKaikki();
         View::make('aihe/lista.html', array('aiheet' => $aiheet));
     }
 
     public static function nayta($id) {
         self::check_logged_in();
-        $aihe = Aihe::find($id);
-        $kirjoitukset = Kirjoitus::findByCategory($id);
+        $aihe = Aihe::hae($id);
+        $kirjoitukset = Kirjoitus::haeAiheella($id);
         View::make('aihe/nayta.html', array('aihe' => $aihe,
             'kirjoitukset' => $kirjoitukset));
     }
@@ -28,10 +28,9 @@ class AiheController extends BaseController{
         ));
 
 //        Kint::dump($params);
-        $aihe->save();
         $errors = $aihe->errors();
         if (count($errors) == 0) {
-            $aihe->save();
+            $aihe->tallenna();
             Redirect::to('/aihe/' . $aihe->id, 
                     array('message' => 'Uusi aihe on luotu!'));
         } else {
@@ -42,7 +41,7 @@ class AiheController extends BaseController{
     }
     
     public static function muokkaa($id) {
-        $aihe = Aihe::find($id);
+        $aihe = Aihe::hae($id);
         View::make('aihe/muokkaa.html', array('attributes' => $aihe));
     }
     
@@ -63,7 +62,7 @@ class AiheController extends BaseController{
                 $errors, 'attributes' => $attributes));
         } else {
 
-            $aihe->update();
+            $aihe->paivita();
 
             Redirect::to('/aihe/' . $aihe->id, array('message' => 
                 'Aiheen kuvausta on muokattu onnistuneesti!'));
@@ -72,7 +71,7 @@ class AiheController extends BaseController{
 
     public static function poista($id) {
         $aihe = new Aihe(array('id' => $id));
-        $aihe->delete();
+        $aihe->poista();
         Redirect::to('/aiheet', array('message' => 
             'Aihe on poistettu onnistuneesti!'));
     }

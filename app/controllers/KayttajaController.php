@@ -4,18 +4,18 @@ class KayttajaController extends BaseController {
 
     public static function listaa() {
         self::check_logged_in();
-        $kayttajat = Kayttaja::all();
+        $kayttajat = Kayttaja::haeKaikki();
         View::make('kayttaja/lista.html', array('kayttajat' => $kayttajat));
     }
 
     public static function nayta($id) {
         self::check_logged_in();
-        $kayttaja = Kayttaja::find($id);
-        $kayttaja->kirjoitukset=Kirjoitus::findByUser($kayttaja->id);
+        $kayttaja = Kayttaja::hae($id);
+        $kayttaja->kirjoitukset=Kirjoitus::haeKayttajalla($kayttaja->id);
         $kayttaja->kirjoituksia=sizeof($kayttaja->kirjoitukset);
-        $kayttaja->kommentteja=sizeof(Kommentti::findByUser($kayttaja->id));
+        $kayttaja->kommentteja=sizeof(Kommentti::haeKayttajalla($kayttaja->id));
         $kayttaja->luetutKirjoitukset = 
-                KirjoituksenLukenutKayttaja::findReadArticlesByUser($kayttaja->id);
+                KirjoituksenLukenutKayttaja::haeLuetutKayttajalla($kayttaja->id);
         View::make('kayttaja/nayta.html', array('kayttaja' => $kayttaja));
     }
 
@@ -30,13 +30,10 @@ class KayttajaController extends BaseController {
             'nimi' => $params['nimi'],
             'salasana' => $params['salasana']
         ));
-
-//        Kint::dump($params);
-        $kayttaja->save();
-
+        
         $errors = $kayttaja->errors();
         if (count($errors) == 0) {
-            $kayttaja->save();
+            $kayttaja->tallenna();
             Redirect::to('/kayttaja/' . $kayttaja->id, 
                     array('message' => 'Uusi kayttaja on luotu!'));
         } else {
@@ -47,7 +44,7 @@ class KayttajaController extends BaseController {
     }
 
     public static function muokkaa($id) {
-        $kayttaja = Kayttaja::find($id);
+        $kayttaja = Kayttaja::hae($id);
         View::make('kayttaja/muokkaa.html', array('kayttaja' => $kayttaja));
     }
 
@@ -67,7 +64,7 @@ class KayttajaController extends BaseController {
                 $errors, 'kayttaja' => $kayttaja));
         } else {
 
-            $kayttaja->update();
+            $kayttaja->paivita();
 
             Redirect::to('/kayttaja/' . $kayttaja->id, array('message' =>
                 'Käyttäjää on muokattu onnistuneesti!'));
@@ -76,7 +73,7 @@ class KayttajaController extends BaseController {
 
     public static function poista($id) {
         $kayttaja = new Kayttaja(array('id' => $id));
-        $kayttaja->delete();
+        $kayttaja->poista();
         Redirect::to('/kayttajat', array('message' =>
             'Käyttaja on poistettu onnistuneesti!'));
     }

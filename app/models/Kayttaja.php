@@ -18,7 +18,7 @@ class Kayttaja extends BaseModel {
         return $this->{$method}('Salasana', $this->salasana, 6, 30, true);
     }
 
-    public static function all() {
+    public static function haeKaikki() {
         // Alustetaan kysely tietokantayhteydellämme
         $query = DB::connection()->prepare('SELECT * FROM Kayttaja');
         // Suoritetaan kysely
@@ -33,7 +33,8 @@ class Kayttaja extends BaseModel {
             $kayttaja = new Kayttaja(array(
                 'id' => $row['id'],
                 'nimi' => $row['nimi'],
-                'kirjoitukset' => Kirjoitus::findByUser($row['id'])
+                'kirjoitukset' => Kirjoitus::haeKayttajalla($row['id']),
+                'kommentteja' => Kommentti::haeKayttajalla($row['id'])
             ));
             $kayttaja->kirjoituksia = sizeof($kayttaja->kirjoitukset);
             $kayttajat[] = $kayttaja;
@@ -42,7 +43,7 @@ class Kayttaja extends BaseModel {
         return $kayttajat;
     }
 
-    public static function find($id) {
+    public static function hae($id) {
         $query = DB::connection()->prepare('SELECT * FROM Kayttaja WHERE id = :id LIMIT 1');
         $query->execute(array('id' => $id));
         $row = $query->fetch();
@@ -59,7 +60,7 @@ class Kayttaja extends BaseModel {
         return null;
     }
 
-    public function save() {
+    public function tallenna() {
         $query = DB::connection()->prepare('INSERT INTO Kayttaja (nimi, salasana) VALUES (:nimi, :salasana) RETURNING id');
         $query->execute(array('nimi' => $this->nimi, 'salasana' => $this->salasana));
         $row = $query->fetch();
@@ -68,7 +69,7 @@ class Kayttaja extends BaseModel {
         $this->id = $row['id'];
     }
 
-    public function authenticate($nimi, $salasana) {
+    public function autentikoi($nimi, $salasana) {
         $query = DB::connection()->prepare('SELECT * FROM Kayttaja WHERE nimi = :nimi AND salasana = :salasana LIMIT 1');
         $query->execute(array('nimi' => $nimi, 'salasana' => $salasana));
         $row = $query->fetch();
@@ -79,17 +80,17 @@ class Kayttaja extends BaseModel {
         }
     }
     
-    public function update() {
+    public function paivita() {
         $query = DB::connection()->prepare('UPDATE Kayttaja SET salasana=:salasana'
                 . 'WHERE id=:id');
         $query->execute(array('salasana' => $this->salasana,
             'id' =>  $this->id));
     }
     
-    public function delete() {
-        $kirjoitukset = Kirjoitus::findByUser($this->id);
+    public function poista() {
+        $kirjoitukset = Kirjoitus::haeKayttajalla($this->id);
         foreach ($kirjoitukset as $kirjoitus) {
-            $kirjoitus->delete();
+            $kirjoitus->poista();
         } 
         $query = DB::connection()->prepare("DELETE FROM Kayttaja WHERE id=:id");
         $query->execute(array('id' =>  $this->id)); 

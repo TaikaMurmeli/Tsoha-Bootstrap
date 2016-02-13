@@ -9,7 +9,7 @@ class Aihe extends BaseModel{
         $this->validators = array('validate_nimi', 'validate_kuvaus');
     }
 
-    public static function all() {
+    public static function haeKaikki() {
         // Alustetaan kysely tietokantayhteydellämme
         $query = DB::connection()->prepare('SELECT * FROM Aihe');
         // Suoritetaan kysely
@@ -25,15 +25,15 @@ class Aihe extends BaseModel{
                 'id' => $row['id'],
                 'nimi' => $row['nimi'],
                 'kuvaus' => $row['kuvaus'],
-                'kirjoituksia' => sizeof(Kirjoitus::findByCategory($row['id'])),
-                'kirjoitukset' => Kirjoitus::findByCategory($row['id'])
+                'kirjoituksia' => sizeof(Kirjoitus::haeAiheella($row['id'])),
+                'kirjoitukset' => Kirjoitus::haeAiheella($row['id'])
             ));
         }
 
         return $aiheet;
     }
 
-    public static function find($id) {
+    public static function hae($id) {
         $query = DB::connection()->prepare('SELECT * FROM Aihe WHERE id = :id LIMIT 1');
         $query->execute(array('id' => $id));
         $row = $query->fetch();
@@ -51,7 +51,7 @@ class Aihe extends BaseModel{
         return null;
     }
 
-    public function save() {
+    public function tallenna() {
         $query = DB::connection()->prepare('INSERT INTO Aihe (nimi, kuvaus) VALUES (:nimi, :kuvaus) RETURNING id');
         $query->execute(array('nimi' => $this->nimi, 'kuvaus' => $this->kuvaus));
         $row = $query->fetch();
@@ -60,18 +60,18 @@ class Aihe extends BaseModel{
         $this->id = $row['id'];
     }
     
-     public function update() {
+     public function paivita() {
         $query = DB::connection()->prepare('UPDATE Aihe SET kuvaus=:kuvaus'
                 . ' WHERE id=:id');
         $query->execute(array('kuvaus' => $this->kuvaus,
             'id' =>  $this->id));
     }
     
-    public function delete() {
+    public function poista() {
         
-        $kirjoitukset = Kirjoitus::findByCategory($this->id);
+        $kirjoitukset = Kirjoitus::haeAiheella($this->id);
         foreach ($kirjoitukset as $kirjoitus) {
-            $kirjoitus->delete();
+            $kirjoitus->poista();
         } 
         $query = DB::connection()->prepare("DELETE FROM Aihe WHERE id=:id");
         $query->execute(array('id' =>  $this->id)); 

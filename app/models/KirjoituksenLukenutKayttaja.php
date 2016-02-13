@@ -7,7 +7,7 @@ class KirjoituksenLukenutKayttaja extends BaseModel{
         parent::__construct($attributes);
     }
 
-    public static function all() {
+    public static function haeKaikki() {
         // Alustetaan kysely tietokantayhteydellämme
         $query = DB::connection()->prepare('SELECT * FROM KirjoituksenLukenutKayttaja');
         // Suoritetaan kysely
@@ -28,7 +28,7 @@ class KirjoituksenLukenutKayttaja extends BaseModel{
         return $lukijat;
     }
 
-    public static function find($kayttaja_id, $lukija_id) {
+    public static function hae($kayttaja_id, $lukija_id) {
         $query = DB::connection()->prepare('SELECT * FROM KirjoituksenLukenutKayttaja '
                 . 'WHERE id = :id LIMIT 1');
         $query->execute(array('id' => $id));
@@ -45,7 +45,7 @@ class KirjoituksenLukenutKayttaja extends BaseModel{
         return null;
     }
     
-    public static function findReadersByArticle($kirjoitus_id) {
+    public static function haeLukeneetKirjoituksella($kirjoitus_id) {
         $query = DB::connection()->prepare('SELECT * '
                 . 'FROM Kayttaja '
                 . 'INNER JOIN KirjoituksenLukenutKayttaja '
@@ -63,7 +63,7 @@ class KirjoituksenLukenutKayttaja extends BaseModel{
         }
         return $kayttajat;
     }
-    public static function findReadArticlesByUser($kayttaja_id) {
+    public static function haeLuetutKayttajalla($kayttaja_id) {
         $query = DB::connection()->prepare('SELECT * '
                 . 'FROM Kirjoitus '
                 . 'INNER JOIN KirjoituksenLukenutKayttaja '
@@ -79,14 +79,14 @@ class KirjoituksenLukenutKayttaja extends BaseModel{
                 'nimi' => $row['nimi'],
                 'sisalto' => $row['sisalto'],
                 'julkaistu' => $row['julkaistu'],
-                'julkaisija' => Kayttaja::find($row['julkaisija']),
-                'kommentteja' => sizeof(Kommentti::findByArticle($row['id']))
+                'julkaisija' => Kayttaja::hae($row['julkaisija']),
+                'kommentteja' => sizeof(Kommentti::haeKirjoituksella($row['id']))
             ));
         }
         return $kirjoitukset;
     }
     
-    public function save() {
+    public function tallenna() {
         $query = DB::connection()->prepare(''
                 . 'INSERT INTO KirjoituksenLukenutKayttaja (kirjoitus_id, kayttaja_id) '
                 . 'VALUES (:kirjoitus_id, :kayttaja_id)');

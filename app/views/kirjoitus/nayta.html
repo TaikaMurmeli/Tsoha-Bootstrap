@@ -21,6 +21,9 @@
 <p>{{kirjoitus.sisalto}}</p>
 {{forms.edit_button("#{base_path}/kirjoitus/muokkaa/#{kirjoitus.id}")}}
 {{forms.seen_button("#{base_path}/kirjoitus/luettu/#{kirjoitus.id}", "Merkitse luetuksi")}}
+{% if kommentti.julkaisija.nimi == kirjautunut_kayttaja.nimi %}
+{{forms.destroy_button("#{base_path}/kirjoitus/poista/#{kommentti.id}")}}
+{% endif %}
 <ul>
     <li><strong>Aihe:</strong> {{kirjoitus.aihe.nimi}}</li>
     <li><strong>Julkaisija:</strong> {{kirjoitus.julkaisija.nimi}}</li>
@@ -39,11 +42,15 @@
 
 {% for kommentti in kommentit %}
 
+<p>{{kommentti.sisalto}}</p>
 <strong>Julkaisija:</strong> {{kommentti.julkaisija.nimi}}
-<p>{{kommentti.sisalto}}</p> 
+<br>
 <strong>Julkaistu:</strong> {{kommentti.julkaistu}}
 {{forms.seen_button("#{base_path}/kommentti/nahty/#{kommentti.id}")}}
-{{forms.destroy_button("#{base_path}/kommentti/#{kommentti.id}")}} 
+{% if kommentti.julkaisija.nimi == kirjautunut_kayttaja.nimi %}
+{{forms.destroy_button("#{base_path}/kommentti/#{kommentti.id}")}}
+{% endif %}
+<br><br>
 {% endfor %}
 
 <br>

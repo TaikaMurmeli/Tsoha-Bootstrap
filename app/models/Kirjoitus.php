@@ -19,7 +19,7 @@ class Kirjoitus extends BaseModel {
         return $this->{$method}('Sisältö', $this->sisalto, 5, 4000, true);
     }
 
-    public static function all() {
+    public static function haeKaikki() {
         $query = DB::connection()->prepare('SELECT * FROM Kirjoitus');
         $query->execute();
         $rows = $query->fetchAll();
@@ -28,18 +28,18 @@ class Kirjoitus extends BaseModel {
         foreach ($rows as $row) {
             $kirjoitukset[] = new Kirjoitus(array(
                 'id' => $row['id'],
-                'aihe' => Aihe::find($row['aihe_id']),
+                'aihe' => Aihe::hae($row['aihe_id']),
                 'nimi' => $row['nimi'],
                 'sisalto' => $row['sisalto'],
                 'julkaistu' => $row['julkaistu'],
-                'julkaisija' => Kayttaja::find($row['julkaisija']),
-                'kommentteja' => sizeof(Kommentti::findByArticle($row['id']))
+                'julkaisija' => Kayttaja::hae($row['julkaisija']),
+                'kommentteja' => sizeof(Kommentti::haeKirjoituksella($row['id']))
             ));
         }
         return $kirjoitukset;
     }
 
-    public static function findByUser($kayttaja_id) {
+    public static function haeKayttajalla($kayttaja_id) {
         $query = DB::connection()->prepare('SELECT * FROM Kirjoitus '
                 . 'WHERE julkaisija = :julkaisija');
         $query->execute(array('julkaisija' => $kayttaja_id));
@@ -49,18 +49,18 @@ class Kirjoitus extends BaseModel {
         foreach ($rows as $row) {
             $kirjoitukset[] = new Kirjoitus(array(
                 'id' => $row['id'],
-                'aihe' => Aihe::find($row['aihe_id']),
+                'aihe' => Aihe::hae($row['aihe_id']),
                 'nimi' => $row['nimi'],
                 'sisalto' => $row['sisalto'],
                 'julkaistu' => $row['julkaistu'],
-                'julkaisija' => Kayttaja::find($row['julkaisija']),
-                'kommentteja' => sizeof(Kommentti::findByArticle($row['id']))
+                'julkaisija' => Kayttaja::hae($row['julkaisija']),
+                'kommentteja' => sizeof(Kommentti::haeKirjoituksella($row['id']))
             ));
         }
         return $kirjoitukset;
     }
 
-    public static function findByCategory($aihe_id) {
+    public static function haeAiheella($aihe_id) {
         $query = DB::connection()->prepare('SELECT * FROM Kirjoitus '
                 . 'WHERE aihe_id = :aihe_id');
         $query->execute(array('aihe_id' => $aihe_id));
@@ -70,12 +70,12 @@ class Kirjoitus extends BaseModel {
         foreach ($rows as $row) {
             $kirjoitukset[] = new Kirjoitus(array(
                 'id' => $row['id'],
-                'aihe' => Aihe::find($row['aihe_id']),
+                'aihe' => Aihe::hae($row['aihe_id']),
                 'nimi' => $row['nimi'],
                 'sisalto' => $row['sisalto'],
                 'julkaistu' => $row['julkaistu'],
-                'julkaisija' => Kayttaja::find($row['julkaisija']),
-                'kommentteja' => sizeof(Kommentti::findByArticle($row['id']))
+                'julkaisija' => Kayttaja::hae($row['julkaisija']),
+                'kommentteja' => sizeof(Kommentti::haeKirjoituksella($row['id']))
             ));
         }
         return $kirjoitukset;
@@ -83,7 +83,7 @@ class Kirjoitus extends BaseModel {
     
    
 
-    public static function find($id) {
+    public static function hae($id) {
         $query = DB::connection()->prepare('SELECT * FROM Kirjoitus '
                 . 'WHERE id = :id LIMIT 1');
         $query->execute(array('id' => $id));
@@ -92,18 +92,18 @@ class Kirjoitus extends BaseModel {
         if ($row) {
             $kirjoitus = new Kirjoitus(array(
                 'id' => $row['id'],
-                'aihe' => Aihe::find($row['aihe_id']),
+                'aihe' => Aihe::hae($row['aihe_id']),
                 'nimi' => $row['nimi'],
                 'sisalto' => $row['sisalto'],
                 'julkaistu' => $row['julkaistu'],
-                'julkaisija' => Kayttaja::find($row['julkaisija'])
+                'julkaisija' => Kayttaja::hae($row['julkaisija'])
             ));
             return $kirjoitus;
         }
         return null;
     }
 
-    public function save() {
+    public function tallenna() {
         $query = DB::connection()->prepare('INSERT INTO Kirjoitus (aihe_id, nimi, sisalto, '
                 . 'julkaistu, julkaisija) VALUES (:aihe_id, :nimi, :sisalto, :julkaistu,'
                 . ' :julkaisija) RETURNING id');
@@ -116,17 +116,17 @@ class Kirjoitus extends BaseModel {
         $this->id = $row['id'];
     }
 
-    public function update() {
+    public function paivita() {
         $query = DB::connection()->prepare('UPDATE Kirjoitus SET nimi=:nimi,'
                 . ' sisalto=:sisalto WHERE id=:id');
         $query->execute(array('nimi' => $this->nimi, 'sisalto' => $this->sisalto,
             'id' => $this->id));
     }
 
-    public function delete() {
-        $kommentit = Kommentti::findByArticle($this->id);
+    public function poista() {
+        $kommentit = Kommentti::haeKirjoituksella($this->id);
         foreach ($kommentit as $kommentti) {
-            $kommentti->delete();
+            $kommentti->poista();
         }
         $query = DB::connection()->prepare("DELETE FROM Kirjoitus WHERE id=:id");
         $query->execute(array('id' => $this->id));
