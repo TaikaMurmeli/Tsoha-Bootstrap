@@ -15,6 +15,7 @@ Linkkejä alisivuihin:
   * [käyttäjä1](http://sjsarsa.users.cs.helsinki.fi/tsohakeskustelufoorumi/kayttaja/1)
   * [käyttäjät](http://sjsarsa.users.cs.helsinki.fi/tsohakeskustelufoorumi/kayttajat)
   * [kirjoitus](http://sjsarsa.users.cs.helsinki.fi/tsohakeskustelufoorumi/kirjoitus/1)
-  * [ryhmä1](http://sjsarsa.users.cs.helsinki.fi/tsohakeskustelufoorumi/ryhma/1)
   * [ryhmät](http://sjsarsa.users.cs.helsinki.fi/tsohakeskustelufoorumi/ryhmat)
   * [login](http://sjsarsa.users.cs.helsinki.fi/tsohakeskustelufoorumi/login)
+
+Kirjautumissivulla on esimerkkikäyttäjän tunnukset.
