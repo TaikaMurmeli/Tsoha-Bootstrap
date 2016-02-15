@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+{% block content %}
+{% import "macros/forms.html" as forms %}
+ {% if message %}
+<div class="alert alert-success">
+    {{message}}
+</div>
+ {% endif %}
+{% if kayttaja %} 
+<h2>Kirjautuneena: {{kayttaja.nimi}}</h2>
+<h2>Uusimmat kirjoitukset:</h2>
+
+<table class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>Otsikko</th>
+            <th>Aihe</th>
+            <th>Kommentteja</th>
+            <th>Julkaistu</th>
+            <th>Julkaisija</th>
+        </tr>
+    </thead>
+
+    <tbody>     
+        {% for kirjoitus in kirjoitukset %}
+        <tr>
+            <td><a href="{{base_path}}/kirjoitus/{{kirjoitus.id}}">{{kirjoitus.nimi}}</a></td>
+            <td>{{kirjoitus.aihe.nimi}}</td>
+            <td>{{kirjoitus.kommentteja}}</td>
+            <td>{{kirjoitus.julkaistu}}</td>
+            <td>{{kirjoitus.julkaisija.nimi}}</td>
+            
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<h2>Omat kirjoitukseni:</h2>
+    
+<table class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>Otsikko</th>
+            <th>Aihe</th>
+            <th>Kommentteja</th>
+            <th>Julkaistu</th>
+            <th>Julkaisija</th>
+             <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for kirjoitus in kayttaja.kirjoitukset %}
+        <tr>
+            <td><a href="{{base_path}}/kirjoitus/{{kirjoitus.id}}">{{kirjoitus.nimi}}</a></td>
+            <td>{{kirjoitus.aihe.nimi}}</td>
+            <td>{{kirjoitus.kommentteja}}</td>
+            <td>{{kirjoitus.julkaistu}}</td>
+            <td>{{kirjoitus.julkaisija.nimi}}</td>
+            <th>            
+                {{forms.edit_button("#{base_path}/kirjoitus/muokkaa/#{kirjoitus.id}")}}
+                {{forms.destroy_button("#{base_path}/kirjoitus/poista/#{kirjoitus.id}")}}              
+            </th>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<h4>Luetut kirjoitukset:</h4>
+<ul>
+    {% for kirjoitus in kayttaja.luetutKirjoitukset %}
+    <li>
+        <a href="{{base_path}}/kirjoitus/{{kirjoitus.id}}">{{kirjoitus.nimi}}</a>
+    </li>
+    {% endfor %}
+</ul>
+
+<ul><h3><li>
+        <a class="btn-btn-success" 
+               href="http://sjsarsa.users.cs.helsinki.fi/tsohakeskustelufoorumi/aiheet">
+                Hae kirjoituksia aiheittain
+            </a>  
+        </li>
+        <br>
+        <li>
+            <a class="btn-btn-success" 
+               href="http://sjsarsa.users.cs.helsinki.fi/tsohakeskustelufoorumi/kayttajat">
+                Hae käyttäjien kirjoituksia
+            </a>
+        </li>
+    </h3> 
+</ul>
+{% else %}
+<ul><li>
+        <h3><a class="btn-btn-success" href="http://sjsarsa.users.cs.helsinki.fi/tsohakeskustelufoorumi/login">Kirjaudu sisään täällä</a></h3>
+    </li> 
+</ul>
+{% endif %}
+{% endblock %}

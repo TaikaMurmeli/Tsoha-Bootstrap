@@ -11,10 +11,10 @@ CREATE TABLE Ryhma(
   kuvaus varchar(400)
 );
 
-CREATE TABLE Kayttajaryhma(
-  kayttaja_id INTEGER REFERENCES Kayttaja(id),
-  ryhma_id INTEGER REFERENCES Ryhma(id)
-);
+-- CREATE TABLE Kayttajaryhma(
+--   kayttaja_id INTEGER REFERENCES Kayttaja(id),
+--   ryhma_id INTEGER REFERENCES Ryhma(id)
+-- );
 
 CREATE TABLE Aihe(
   id SERIAL PRIMARY KEY,
@@ -27,7 +27,7 @@ CREATE TABLE Kirjoitus(
   aihe_id INTEGER REFERENCES Aihe(id),
   nimi varchar(50) NOT NULL,
   sisalto varchar(4000) NOT NULL,
-  julkaistu DATE,
+  julkaistu TIMESTAMP,
   julkaisija INTEGER REFERENCES Kayttaja(id)
 );
 
@@ -35,7 +35,7 @@ CREATE TABLE Kommentti(
   id SERIAL PRIMARY KEY,
   kirjoitus_id INTEGER REFERENCES Kirjoitus(id),
   sisalto varchar(4000) NOT NULL,
-  julkaistu DATE,
+  julkaistu TIMESTAMP,
   julkaisija INTEGER REFERENCES Kayttaja(id)
 );
 

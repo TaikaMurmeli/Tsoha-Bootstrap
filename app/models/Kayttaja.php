@@ -92,6 +92,10 @@ class Kayttaja extends BaseModel {
         foreach ($kirjoitukset as $kirjoitus) {
             $kirjoitus->poista();
         } 
+        $kommentit = Kommentti::haeKayttajalla($this->id);
+        foreach ($kommentit as $kommentti) {
+            $kommentti->poista();
+        }
         $query = DB::connection()->prepare("DELETE FROM Kayttaja WHERE id=:id");
         $query->execute(array('id' =>  $this->id)); 
     }

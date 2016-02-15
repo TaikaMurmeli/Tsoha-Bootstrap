@@ -19,27 +19,38 @@
 <h1>{{kirjoitus.nimi}}</h1>
 
 <p>{{kirjoitus.sisalto}}</p>
+{% if kirjoitus.julkaisija.nimi == kirjautunut_kayttaja.nimi %}
 {{forms.edit_button("#{base_path}/kirjoitus/muokkaa/#{kirjoitus.id}")}}
-{{forms.seen_button("#{base_path}/kirjoitus/luettu/#{kirjoitus.id}", "Merkitse luetuksi")}}
-{% if kommentti.julkaisija.nimi == kirjautunut_kayttaja.nimi %}
 {{forms.destroy_button("#{base_path}/kirjoitus/poista/#{kommentti.id}")}}
+{% else %}
+{{forms.seen_button("#{base_path}/kirjoitus/luettu/#{kirjoitus.id}", "Merkitse luetuksi")}}
 {% endif %}
 <ul>
-    <li><strong>Aihe:</strong> {{kirjoitus.aihe.nimi}}</li>
-    <li><strong>Julkaisija:</strong> {{kirjoitus.julkaisija.nimi}}</li>
+    <li><strong>Aihe:</strong> 
+        <a href="{{base_path}}/aihe/{{kirjoitus.aihe.id}}">{{kirjoitus.aihe.nimi}}</a>   
+    </li>
+    <li><strong>Julkaisija:</strong>
+        <a href="{{base_path}}/kayttaja/{{kirjoitus.julkaisija.id}}">
+            {{kirjoitus.julkaisija.nimi}}
+        </a>
+    </li>
     <li><strong>Julkaistu:</strong> {{kirjoitus.julkaistu}}</li>
     <li><strong>Kommentteja:</strong> {{kirjoitus.kommentteja}}</li>
 </ul>    
 <h4>Kirjoituksen lukeneet käyttäjät:</h4>
-<ul>
-    {% for kayttaja in kirjoitus.lukeneetKayttajat %}
-    <li>{{kayttaja.nimi}}</li>
-    {% endfor %}
-</ul>  
+{% if kirjoitus.lukeneetKayttajat %}
 
+    {% for kayttaja in kirjoitus.lukeneetKayttajat %}
+    <a href="{{base_path}}/kayttaja/{{kayttaja.id}}">
+            {{kayttaja.nimi}} 
+        </a>
+    {% endfor %}
+ 
+{% else %} <p>Tyhjältä näyttää...</p>
+{% endif %}
 
 <h3>Kommentit:</h3>
-
+{% if kommentit %}
 {% for kommentti in kommentit %}
 
 <p>{{kommentti.sisalto}}</p>
@@ -52,6 +63,8 @@
 {% endif %}
 <br><br>
 {% endfor %}
+{% else %} <p>Tyhjältä näyttää...</p>
+{% endif %}
 
 <br>
 <br>

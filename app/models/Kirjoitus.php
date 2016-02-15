@@ -38,6 +38,26 @@ class Kirjoitus extends BaseModel {
         }
         return $kirjoitukset;
     }
+    
+    public static function haeKymmenenViimeisinta() {
+        $query = DB::connection()->prepare('SELECT * FROM Kirjoitus Limit 10');
+        $query->execute();
+        $rows = $query->fetchAll();
+        $kirjoitukset = array();
+
+        foreach ($rows as $row) {
+            $kirjoitukset[] = new Kirjoitus(array(
+                'id' => $row['id'],
+                'aihe' => Aihe::hae($row['aihe_id']),
+                'nimi' => $row['nimi'],
+                'sisalto' => $row['sisalto'],
+                'julkaistu' => $row['julkaistu'],
+                'julkaisija' => Kayttaja::hae($row['julkaisija']),
+                'kommentteja' => sizeof(Kommentti::haeKirjoituksella($row['id']))
+            ));
+        }
+        return $kirjoitukset;
+    }
 
     public static function haeKayttajalla($kayttaja_id) {
         $query = DB::connection()->prepare('SELECT * FROM Kirjoitus '

@@ -1,6 +1,13 @@
 {% extends "base.html" %}
 {% block content %}
 {% import "macros/forms.html" as forms %}
+
+{% if message %}
+<div class="alert alert-success">
+    {{message}}
+</div>
+{% endif %}
+
     <h1>Käyttäjät</h1>
   
   <p>

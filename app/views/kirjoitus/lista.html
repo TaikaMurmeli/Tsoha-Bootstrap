@@ -1,5 +1,12 @@
 {% extends "base.html" %}
 {% block content %}
+
+{% if message %}
+<div class="alert alert-success">
+    {{message}}
+</div>
+{% endif %}
+
 <h1>Kirjoitukset</h1>
 
 <table class="table table-striped table-bordered">
