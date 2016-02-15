@@ -18,4 +18,4 @@ Linkkejä alisivuihin:
   * [ryhmät](http://sjsarsa.users.cs.helsinki.fi/tsohakeskustelufoorumi/ryhmat)
   * [login](http://sjsarsa.users.cs.helsinki.fi/tsohakeskustelufoorumi/login)
 
-Kirjautumissivulla on esimerkkikäyttäjän tunnukset.
+Kirjautumissivulla on esimerkkikäyttäjän tunnukset ylläpitooikeuksilla.
