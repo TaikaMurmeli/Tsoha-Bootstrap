@@ -18,4 +18,7 @@ Linkkejä alisivuihin:
   * [ryhmät](http://sjsarsa.users.cs.helsinki.fi/tsohakeskustelufoorumi/ryhmat)
   * [login](http://sjsarsa.users.cs.helsinki.fi/tsohakeskustelufoorumi/login)
 
-Kirjautumissivulla on esimerkkikäyttäjän tunnukset ylläpitooikeuksilla.
+Kirjautua voi esim. tunnuksilla:
+Ylläpitäjä: nimi: Make-Viljami, salasana: lol    
+Käyttäjä: nimi: Antti-Antero, salasana: blublub  
+Arestissa: nimi: Ziltoid, salasana: omnipotent
