@@ -19,6 +19,7 @@ Linkkejä alisivuihin:
   * [login](http://sjsarsa.users.cs.helsinki.fi/tsohakeskustelufoorumi/login)
 
 Kirjautua voi esim. tunnuksilla:
+
 Ylläpitäjä: nimi: Make-Viljami, salasana: lol    
 Käyttäjä: nimi: Antti-Antero, salasana: blublub  
 Arestissa: nimi: Ziltoid, salasana: omnipotent
