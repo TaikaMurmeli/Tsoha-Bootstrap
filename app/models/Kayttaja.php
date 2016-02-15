@@ -20,7 +20,8 @@ class Kayttaja extends BaseModel {
 
     public static function haeKaikki() {
         // Alustetaan kysely tietokantayhteydellämme
-        $query = DB::connection()->prepare('SELECT * FROM Kayttaja');
+        $query = DB::connection()->prepare('SELECT * FROM Kayttaja '
+                . 'ORDER BY nimi');
         // Suoritetaan kysely
         $query->execute();
         // Haetaan kyselyn tuottamat rivit

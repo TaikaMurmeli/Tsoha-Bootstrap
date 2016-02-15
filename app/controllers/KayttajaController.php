@@ -34,7 +34,7 @@ class KayttajaController extends BaseController {
         $errors = $kayttaja->errors();
         if (count($errors) == 0) {
             $kayttaja->tallenna();
-            Redirect::to('/kayttaja/' . $kayttaja->id, array('message' => 'Uusi kayttaja on luotu!'));
+            Redirect::to('/kayttaja/' . $kayttaja->id, array('message' => 'Uusi käyttäjä on luotu!'));
         } else {
 
             View::make('kayttaja/uusi.html', array('errors' => $errors));
