@@ -1,13 +1,23 @@
 <?php
 
-class Ryhma extends BaseModel{
+class Ryhma extends BaseModel {
+
     //put your code here
-    public $id, $nimi, $kuvaus;
+    public $id, $nimi, $kuvaus, $kayttajat;
 
     public function __construct($attributes) {
         parent::__construct($attributes);
-        $this->validators = array('validate_nimi', 'validate_kuvaus');
+//        $this->validators = array('validate_nimi', 'validate_kuvaus');
     }
+
+//    public function validate_nimi() {
+//        return parent::validate_string('nimi', $this->nimi, 3, 30, true, true);
+//    }
+//
+//    public function validate_kuvaus() {
+//        $method = 'validate_string';
+//        return $this->{$method}('kuvaus', $this->kuvaus, 5, 200, true, true);
+//    }
 
     public static function haeKaikki() {
         // Alustetaan kysely tietokantayhteydellämme
@@ -21,10 +31,11 @@ class Ryhma extends BaseModel{
         // Käydään kyselyn tuottamat rivit läpi
         foreach ($rows as $row) {
             // Tämä on PHP:n hassu syntaksi alkion lisäämiseksi taulukkoon :)
-            $ryhmat[] = new Kayttaja(array(
+            $ryhmat[] = new Ryhma(array(
                 'id' => $row['id'],
                 'nimi' => $row['nimi'],
                 'kuvaus' => $row['kuvaus']
+                
             ));
         }
 
@@ -48,21 +59,12 @@ class Ryhma extends BaseModel{
 
         return null;
     }
-    
-    public function tallenna() {
-        $query = DB::connection()->prepare('INSERT INTO Ryhma (nimi, kuvaus) VALUES (:nimi, :kuvaus) RETURNING id');
-        $query->execute(array('nimi' => $this->nimi, 'kuvaus' => $this->kuvaus));
-        $row = $query->fetch();
-//        Kint::trace();
-//        Kint::dump($row);
-        $this->id = $row['id'];
-    }
-    
-    public function validate_nimi() {
-        return parent::validate_string('nimi', $this->nimi, 3, 30, true);
-    }
-    public function validate_kuvaus() {
-        $method='validate_string';
-        return $this->{$method}('kuvaus', $this->kuvaus, 5, 200, true);
-    }
+
+//    public function tallenna() {
+//        $query = DB::connection()->prepare('INSERT INTO Ryhma (nimi, kuvaus) VALUES (:nimi, :kuvaus) RETURNING id');
+//        $query->execute(array('nimi' => $this->nimi, 'kuvaus' => $this->kuvaus));
+//        $row = $query->fetch();
+//        $this->id = $row['id'];
+//    }
+
 }

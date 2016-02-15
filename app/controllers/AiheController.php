@@ -17,10 +17,13 @@ class AiheController extends BaseController{
 
     public static function luo() {
         self::check_logged_in();
+        self::check_detention();
         View::make('aihe/uusi.html');
     }
 
     public static function tallenna() {
+        self::check_logged_in();
+        self::check_detention();
         $params = $_POST;
         $aihe = new Aihe(array(
             'nimi' => $params['nimi'],
@@ -41,11 +44,13 @@ class AiheController extends BaseController{
     }
     
     public static function muokkaa($id) {
+        self::check_logged_in_as_admin();
         $aihe = Aihe::hae($id);
         View::make('aihe/muokkaa.html', array('attributes' => $aihe));
     }
     
     public static function paivita($id) {
+        self::check_logged_in_as_admin();
         $params = $_POST;
 
         $attributes = array(
@@ -70,6 +75,7 @@ class AiheController extends BaseController{
     }
 
     public static function poista($id) {
+        self::check_logged_in_as_admin();
         $aihe = new Aihe(array('id' => $id));
         $aihe->poista();
         Redirect::to('/aiheet', array('message' => 

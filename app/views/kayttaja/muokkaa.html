@@ -3,13 +3,13 @@
 <h1>Vaihda salasana</h1>
 
 {% if errors %}
-    <div class="alert alert-danger">
-      <ul>
+<div class="alert alert-danger">
+    <ul>
         {% for error in errors %}
-          <li>{{error}}</li>
+        <li>{{error}}</li>
         {% endfor %}
-      </ul>
-    </div>
+    </ul>
+</div>
 {% endif %}
 
 <h2>Muokkaat käyttäjää: {{kayttaja.nimi}}</h2>
@@ -19,6 +19,14 @@
     <div class="form-group">
         <label>Anna uusi salasana:</label>
         <textarea rows="1" name="salasana" class="form-control"></textarea>
+    </div>
+    <div class="form-group">
+        <label>Aseta oikeudet:</label>
+        <select name="ryhma_id">
+            <option value="2">Käyttäjä</option>
+            <option value="3">Arestissa</option>
+            <option value="1">Ylläpitäjä</option>
+        </select>
     </div>
 
     <div class="form-group">

@@ -2,17 +2,13 @@
 {% block content %}
     <h1>Ryhmat</h1>
   
-  <p>
-    <a href="{{base_path}}/ryhma/uusi" class="btn btn-success">Lisää ryhmä</a>
-  </p>
-  
     
   <table class="table table-striped table-bordered">
     <thead>
       <tr>
         <th>Nimi</th>
-        <th>Jäsenten määrä</th>
-        <th></th>
+        <th>Kuvaus</th>
+        <th>Jäseniä</th>
       </tr>
     </thead>
 
@@ -20,11 +16,8 @@
       {% for ryhma in ryhmat %}
       <tr>
         <td><a href="{{base_path}}/ryhma/{{ryhma.id}}">{{ryhma.nimi}}</a></td>
-        <td>asd</td>
-        <th>
-            <a class="btn btn-default btn-sm" href="#">Muokkaa</a>
-            <a class="btn btn-danger btn-sm" href="#">Poista</a>
-        </th>
+        <td>{{ryhma.kuvaus}}</td>
+        <th>asd</th>
         </tr>
       {% endfor %}
     </tbody>

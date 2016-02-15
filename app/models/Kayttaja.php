@@ -3,7 +3,7 @@
 class Kayttaja extends BaseModel {
 
     public $id, $nimi, $salasana, $kirjoitukset, $kirjoituksia, $kommentteja,
-            $luetutKirjoitukset;
+            $luetutKirjoitukset, $ryhma_id;
 
     public function __construct($attributes) {
         parent::__construct($attributes);
@@ -11,11 +11,11 @@ class Kayttaja extends BaseModel {
     }
     
     public function validate_nimi() {
-        return parent::validate_string('Nimi', $this->nimi, 5, 20, true);
+        return parent::validate_string('Nimi', $this->nimi, 5, 20, true, true);
     }
     public function validate_salasana() {
         $method='validate_string';
-        return $this->{$method}('Salasana', $this->salasana, 6, 30, true);
+        return $this->{$method}('Salasana', $this->salasana, 6, 30, true, false);
     }
 
     public static function haeKaikki() {
@@ -34,7 +34,8 @@ class Kayttaja extends BaseModel {
                 'id' => $row['id'],
                 'nimi' => $row['nimi'],
                 'kirjoitukset' => Kirjoitus::haeKayttajalla($row['id']),
-                'kommentteja' => Kommentti::haeKayttajalla($row['id'])
+                'kommentteja' => Kommentti::haeKayttajalla($row['id']),
+                'ryhma_id' => $row['ryhma_id']
             ));
             $kayttaja->kirjoituksia = sizeof($kayttaja->kirjoitukset);
             $kayttajat[] = $kayttaja;
@@ -51,7 +52,8 @@ class Kayttaja extends BaseModel {
         if ($row) {
             $kayttaja = new Kayttaja(array(
                 'id' => $row['id'],
-                'nimi' => $row['nimi']
+                'nimi' => $row['nimi'],
+                'ryhma_id' => $row['ryhma_id']
 //                'kirjoitukset' => Kirjoitus::findByUser($row['id'])
             ));
 //            $kayttaja->kirjoituksia = sizeof($kayttaja->kirjoitukset);
@@ -61,8 +63,9 @@ class Kayttaja extends BaseModel {
     }
 
     public function tallenna() {
-        $query = DB::connection()->prepare('INSERT INTO Kayttaja (nimi, salasana) VALUES (:nimi, :salasana) RETURNING id');
-        $query->execute(array('nimi' => $this->nimi, 'salasana' => $this->salasana));
+        $query = DB::connection()->prepare('INSERT INTO Kayttaja (nimi, salasana, ryhma_id) '
+                . 'VALUES (:nimi, :salasana, :ryhma_id) RETURNING id');
+        $query->execute(array('nimi' => $this->nimi, 'salasana' => $this->salasana, 'ryhma_id' => 2));
         $row = $query->fetch();
 //        Kint::trace();
 //        Kint::dump($row);
@@ -81,9 +84,10 @@ class Kayttaja extends BaseModel {
     }
     
     public function paivita() {
-        $query = DB::connection()->prepare('UPDATE Kayttaja SET salasana=:salasana'
+        $query = DB::connection()->prepare('UPDATE Kayttaja SET salasana=:salasana, '
+                . 'ryhma_id=:ryhma_id '
                 . 'WHERE id=:id');
-        $query->execute(array('salasana' => $this->salasana,
+        $query->execute(array('salasana' => $this->salasana, 'ryhma_id' => $this->ryhma_id,
             'id' =>  $this->id));
     }
     

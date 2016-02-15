@@ -17,4 +17,31 @@ class BaseController {
         }
     }
 
+    public static function check_logged_in_as_admin() {
+        if (!isset($_SESSION['user'])) {
+            Redirect::to('/login', array('message' => 'Kirjaudu ensin sisään!'));
+        } else {
+            $user = self::get_user_logged_in();
+            if ($user->ryhma_id > 1) {
+                Redirect::to('/', array('message' => 'Tarvitset ylläpitäjän oikeudet!'));
+            }
+        }
+    }
+
+    public static function check_self($user_id) {
+
+        $user = self::get_user_logged_in();
+        if ($user_id != $user->id && $user->ryhma_id > 1) {
+            Redirect::to('/', array('message' => 'Et voi poistaa toisten kirjoituksia!'));
+        }
+    }
+    
+    public static function check_detention() {
+
+        $user = self::get_user_logged_in();
+        if ($user->ryhma_id > 2) {
+            Redirect::to('/', array('message' => 'Olet arestissa, ota yhteyttä ylläpitäjään!'));
+        }
+    }
+
 }

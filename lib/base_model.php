@@ -28,9 +28,10 @@ class BaseModel {
         return $errors;
     }
 
-    public function validate_string($kentta, $string, $minLength, $maxLength, $mustNotBeNull) {
+    public function validate_string($kentta, $string, $minLength, $maxLength, 
+            $eiNull, $eiErikoismerkkeja) {
         $errors = array();
-        if ($mustNotBeNull = true) {
+        if ($eiNull = true) {
             if ($string == '' || $string == null) {
                 $errors[] = "Kenttä \"{$kentta}\" ei saa olla tyhjä!";
             }
@@ -42,6 +43,11 @@ class BaseModel {
         if (strlen($string) > $maxLength) {
             $errors[] = "Kentän \"{$kentta}\" pituuden tulee olla enintään {$maxLength} merkkiä!";
         }
+//        if($eiErikoismerkkeja) {
+//            if(!ctype_alnum($string)) {
+//                $errors[] = "Kentässä \"{$kentta}\" ei saa olla erikoismerkkejä!";
+//            }
+//        }
 
         return $errors;
     }

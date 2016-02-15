@@ -21,6 +21,15 @@
     <li><strong>Kirjoitusten määrä:</strong> {{kayttaja.kirjoituksia}}</li>
     <li><strong>Kommenttien määrä: </strong> {{kayttaja.kommentteja}}</li>
     <li><strong>Salasana: </strong> *********</li>
+    <li><strong>Tila: </strong>
+        {% if kayttaja.ryhma_id == 1 %}
+        Ylläpitäjä
+        {% elseif kayttaja.ryhma_id == 2 %}
+        Käyttäjä
+        {% else %}
+        Arestissa
+        {% endif %}
+    </li>
 </ul>
 
 <h2>Käyttäjän {{kayttaja.nimi}} kirjoitukset:</h2>
@@ -40,10 +49,9 @@
         {% for kirjoitus in kayttaja.kirjoitukset %}
         <tr>
             <td><a href="{{base_path}}/kirjoitus/{{kirjoitus.id}}">{{kirjoitus.nimi}}</a></td>
-            <td>{{kirjoitus.aihe.nimi}}</td>
-            <td>{{kirjoitus.kommentit}}</td>
+            <td><a href="{{base_path}}/kirjoitus/{{kirjoitus.id}}">{{kirjoitus.aihe.nimi}}</a></td>
+            <td>{{kirjoitus.kommentteja}}</td>
             <td>{{kirjoitus.julkaistu}}</td>
-            
         </tr>
         {% endfor %}
     </tbody>

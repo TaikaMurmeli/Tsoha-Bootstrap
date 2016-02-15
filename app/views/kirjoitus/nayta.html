@@ -19,9 +19,9 @@
 <h1>{{kirjoitus.nimi}}</h1>
 
 <p>{{kirjoitus.sisalto}}</p>
-{% if kirjoitus.julkaisija.nimi == kirjautunut_kayttaja.nimi %}
+{% if (kirjoitus.julkaisija.nimi == kirjautunut_kayttaja.nimi or kirjautunut_kayttaja.ryhma_id == 1) %}
 {{forms.edit_button("#{base_path}/kirjoitus/muokkaa/#{kirjoitus.id}")}}
-{{forms.destroy_button("#{base_path}/kirjoitus/poista/#{kommentti.id}")}}
+{{forms.destroy_button("#{base_path}/kirjoitus/poista/#{kirjoitus.id}")}}
 {% else %}
 {{forms.seen_button("#{base_path}/kirjoitus/luettu/#{kirjoitus.id}", "Merkitse luetuksi")}}
 {% endif %}
@@ -58,7 +58,7 @@
 <br>
 <strong>Julkaistu:</strong> {{kommentti.julkaistu}}
 {{forms.seen_button("#{base_path}/kommentti/nahty/#{kommentti.id}")}}
-{% if kommentti.julkaisija.nimi == kirjautunut_kayttaja.nimi %}
+{% if (kommentti.julkaisija.nimi == kirjautunut_kayttaja.nimi  or kirjautunut_kayttaja.ryhma_id == 1)%}
 {{forms.destroy_button("#{base_path}/kommentti/#{kommentti.id}")}}
 {% endif %}
 <br><br>

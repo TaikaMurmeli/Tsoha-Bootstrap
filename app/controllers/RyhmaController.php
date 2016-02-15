@@ -13,21 +13,21 @@ class RyhmaController extends BaseController {
         View::make('ryhma/nayta.html', array('ryhma' => $ryhma));
     }
 
-    public static function luo() {
-        self::check_logged_in();
-        View::make('ryhma/uusi.html');
-    }
+//    public static function luo() {
+//        self::check_logged_in();
+//        View::make('ryhma/uusi.html');
+//    }
 
-    public static function tallenna() {
-        $params = $_POST;
-        $ryhma = new Ryhma(array(
-            'nimi' => $params['nimi'],
-            'kuvaus' => $params['kuvaus']
-        ));
-
-//        Kint::dump($params);
-        $ryhma->tallenna();
-
-        Redirect::to('/ryhma/' . $ryhma->id, array('message' => 'Uusi ryhmä on lisätty järjestelmään!'));
-    }
+//    public static function tallenna() {
+//        $params = $_POST;
+//        $ryhma = new Ryhma(array(
+//            'nimi' => $params['nimi'],
+//            'kuvaus' => $params['kuvaus']
+//        ));
+//
+////        Kint::dump($params);
+//        $ryhma->tallenna();
+//
+//        Redirect::to('/ryhma/' . $ryhma->id, array('message' => 'Uusi ryhmä on lisätty järjestelmään!'));
+//    }
 }

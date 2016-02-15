@@ -102,7 +102,7 @@ class Kommentti extends BaseModel {
 
     public function validate_teksti() {
         $method = 'validate_string';
-        return $this->{$method}('Teksti', $this->sisalto, 5, 4000, true);
+        return $this->{$method}('Teksti', $this->sisalto, 5, 4000, true, false);
     }
 
 }

@@ -1,7 +1,8 @@
 -- Lisää INSERT INTO lauseet tähän tiedostoon
-INSERT INTO Kayttaja (id, nimi, salasana) VALUES ('1', 'Make-Viljami', 'lol');
-INSERT INTO Ryhma (id, nimi, kuvaus) VALUES ('1', 'Admin', 'Ylläpitäjät');
-INSERT INTO Ryhma (id, nimi, kuvaus) VALUES ('2', 'Käyttäjä', 'Foorumin keskustelijat');
+INSERT INTO Ryhma (id, nimi, kuvaus) VALUES ('1', 'Admin', 'Ylläpitäjät, rajaton valta.');
+INSERT INTO Ryhma (id, nimi, kuvaus) VALUES ('2', 'Käyttäjä', 'Foorumin keskustelijat, voivat tehdä asioita');
+INSERT INTO Ryhma (id, nimi, kuvaus) VALUES ('3', 'Aresti', 'Foorumin keskustelijat, jotka ovat tehneet vääriä asioita');
+INSERT INTO Kayttaja (id, nimi, salasana, ryhma_id) VALUES ('1', 'Make-Viljami', 'lol', '1');
 INSERT INTO Aihe (id, nimi, kuvaus) VALUES ('0', 'Kebab', 'Eilen oli tanaan ei');
 INSERT INTO Kirjoitus (id, aihe_id, nimi, sisalto, julkaistu, julkaisija) VALUES ('0', '0', 'Trolling is a art', 'Trolo', NOW(), '1');
 -- INSERT INTO Kirjoitus (id, aihe_id, nimi, sisalto, julkaistu, julkaisija) VALUES ('1', '0', 'Trolling is a art', 'Trolo', NOW(), '1');

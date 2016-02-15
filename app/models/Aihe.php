@@ -78,11 +78,11 @@ class Aihe extends BaseModel{
     }
     
     public function validate_nimi() {
-        return parent::validate_string('nimi', $this->nimi, 3, 30, true);
+        return parent::validate_string('nimi', $this->nimi, 3, 30, true, true);
     }
     public function validate_kuvaus() {
         $method='validate_string';
-        return $this->{$method}('kuvaus', $this->kuvaus, 5, 200, true);
+        return $this->{$method}('kuvaus', $this->kuvaus, 5, 200, true, false);
     }
 
 }

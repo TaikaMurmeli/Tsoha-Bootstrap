@@ -1,4 +1,4 @@
-<?php
+    <?php
 
 class Kirjoitus extends BaseModel {
 
@@ -11,12 +11,12 @@ class Kirjoitus extends BaseModel {
     }
 
     public function validate_nimi() {
-        return parent::validate_string('Otsikko', $this->nimi, 3, 50, true);
+        return parent::validate_string('Otsikko', $this->nimi, 3, 50, true, false);
     }
 
     public function validate_sisalto() {
         $method = 'validate_string';
-        return $this->{$method}('Sisältö', $this->sisalto, 5, 4000, true);
+        return $this->{$method}('Sisältö', $this->sisalto, 5, 4000, true, false);
     }
 
     public static function haeKaikki() {
