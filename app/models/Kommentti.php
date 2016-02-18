@@ -6,7 +6,7 @@ class Kommentti extends BaseModel {
 
     public function __construct($attributes) {
         parent::__construct($attributes);
-        $this->validators = array('validate_teksti');
+        $this->validators = array('validoi_teksti');
     }
 
     public static function haeKirjoituksella($kirjoitus_id) {
@@ -100,9 +100,7 @@ class Kommentti extends BaseModel {
         $query->execute(array('id' => $this->id));
     }
 
-    public function validate_teksti() {
-        $method = 'validate_string';
-        return $this->{$method}('Teksti', $this->sisalto, 5, 4000, true, false);
+    public function validoi_teksti() {
+        return parent::validate_string('Teksti', $this->sisalto, 5, 4000, true, false);
     }
-
 }

@@ -7,16 +7,15 @@ class Kirjoitus extends BaseModel {
 
     public function __construct($attributes) {
         parent::__construct($attributes);
-        $this->validators = array('validate_nimi', 'validate_sisalto');
+        $this->validators = array('validoi_nimi', 'validoi_sisalto');
     }
 
-    public function validate_nimi() {
+    public function validoi_nimi() {
         return parent::validate_string('Otsikko', $this->nimi, 3, 50, true, false);
     }
 
-    public function validate_sisalto() {
-        $method = 'validate_string';
-        return $this->{$method}('Sisältö', $this->sisalto, 5, 4000, true, false);
+    public function validoi_sisalto() {
+        return parent::validate_string('Sisältö', $this->sisalto, 5, 4000, true, false);
     }
 
     public static function haeKaikki() {

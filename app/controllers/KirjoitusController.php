@@ -44,8 +44,7 @@ class KirjoitusController extends BaseController {
             $kirjoitus->tallenna();
             Redirect::to('/kirjoitus/' . $kirjoitus->id, array('message' => 'Uusi kirjoitus on luotu!'));
         } else {
-
-            View::make('kirjoitus/uusi/' . $aihe->id . '.html', array('errors' => $errors));
+            View::make('kirjoitus/uusi.html', array('errors' => $errors));
         }
     }
 

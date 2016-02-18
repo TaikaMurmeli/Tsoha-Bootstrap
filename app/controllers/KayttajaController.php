@@ -15,6 +15,7 @@ class KayttajaController extends BaseController {
         $kayttaja->kirjoituksia = sizeof($kayttaja->kirjoitukset);
         $kayttaja->kommentteja = sizeof(Kommentti::haeKayttajalla($kayttaja->id));
         $kayttaja->luetutKirjoitukset = KirjoituksenLukenutKayttaja::haeLuetutKayttajalla($kayttaja->id);
+        $kayttaja->ryhma = Ryhma::hae($kayttaja->ryhma_id);
         View::make('kayttaja/nayta.html', array('kayttaja' => $kayttaja));
     }
 
@@ -74,7 +75,7 @@ class KayttajaController extends BaseController {
 
     public static function poista($id) {
         self::check_logged_in_as_admin();
-        if ($id = self::get_user_logged_in()->id) {
+        if ($id == self::get_user_logged_in()->id) {
             Redirect::to('/kayttajat', array('message' =>
                 'Et voi poistaa itseäsi!'));
         } else {

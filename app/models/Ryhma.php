@@ -3,7 +3,7 @@
 class Ryhma extends BaseModel {
 
     //put your code here
-    public $id, $nimi, $kuvaus, $kayttajat;
+    public $id, $nimi, $kuvaus, $kayttajat, $kayttajia;
 
     public function __construct($attributes) {
         parent::__construct($attributes);
@@ -34,8 +34,8 @@ class Ryhma extends BaseModel {
             $ryhmat[] = new Ryhma(array(
                 'id' => $row['id'],
                 'nimi' => $row['nimi'],
-                'kuvaus' => $row['kuvaus']
-                
+                'kuvaus' => $row['kuvaus'],
+                'kayttajia' => sizeof(Kayttaja::haeRyhmalla($row['id']))
             ));
         }
 
@@ -51,7 +51,8 @@ class Ryhma extends BaseModel {
             $ryhma = new Ryhma(array(
                 'id' => $row['id'],
                 'nimi' => $row['nimi'],
-                'kuvaus' => $row['kuvaus']
+                'kuvaus' => $row['kuvaus'],
+                'kayttajat' => Kayttaja::haeRyhmalla($row['id'])
             ));
 
             return $ryhma;

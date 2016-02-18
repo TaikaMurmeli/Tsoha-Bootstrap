@@ -21,15 +21,7 @@
     <li><strong>Kirjoitusten määrä:</strong> {{kayttaja.kirjoituksia}}</li>
     <li><strong>Kommenttien määrä: </strong> {{kayttaja.kommentteja}}</li>
     <li><strong>Salasana: </strong> *********</li>
-    <li><strong>Tila: </strong>
-        {% if kayttaja.ryhma_id == 1 %}
-        Ylläpitäjä
-        {% elseif kayttaja.ryhma_id == 2 %}
-        Käyttäjä
-        {% else %}
-        Arestissa
-        {% endif %}
-    </li>
+    <li><strong>Käyttäjäryhmä: </strong>{{kayttaja.ryhma.nimi}}</li>
 </ul>
 
 <h2>Käyttäjän {{kayttaja.nimi}} kirjoitukset:</h2>

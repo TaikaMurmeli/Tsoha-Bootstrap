@@ -3,17 +3,17 @@
 class Kayttaja extends BaseModel {
 
     public $id, $nimi, $salasana, $kirjoitukset, $kirjoituksia, $kommentteja,
-            $luetutKirjoitukset, $ryhma_id;
+            $luetutKirjoitukset, $ryhma_id, $ryhma;
 
     public function __construct($attributes) {
         parent::__construct($attributes);
-        $this->validators = array('validate_nimi', 'validate_salasana');
+        $this->validators = array('validoi_nimi', 'validoi_salasana');
     }
     
-    public function validate_nimi() {
+    public function validoi_nimi() {
         return parent::validate_string('Nimi', $this->nimi, 5, 20, true, true);
     }
-    public function validate_salasana() {
+    public function validoi_salasana() {
         $method='validate_string';
         return $this->{$method}('Salasana', $this->salasana, 6, 30, true, false);
     }
@@ -35,8 +35,9 @@ class Kayttaja extends BaseModel {
                 'id' => $row['id'],
                 'nimi' => $row['nimi'],
                 'kirjoitukset' => Kirjoitus::haeKayttajalla($row['id']),
-                'kommentteja' => Kommentti::haeKayttajalla($row['id']),
-                'ryhma_id' => $row['ryhma_id']
+                'kommentteja' => sizeof(Kommentti::haeKayttajalla($row['id'])),
+                'ryhma_id' => $row['ryhma_id'],
+                'ryhma' => Ryhma::hae($row['ryhma_id'])
             ));
             $kayttaja->kirjoituksia = sizeof($kayttaja->kirjoitukset);
             $kayttajat[] = $kayttaja;
@@ -55,12 +56,41 @@ class Kayttaja extends BaseModel {
                 'id' => $row['id'],
                 'nimi' => $row['nimi'],
                 'ryhma_id' => $row['ryhma_id']
+//                'ryhma' => Ryhma::hae($row['ryhma_id'])
 //                'kirjoitukset' => Kirjoitus::findByUser($row['id'])
             ));
 //            $kayttaja->kirjoituksia = sizeof($kayttaja->kirjoitukset);
             return $kayttaja;
         }
         return null;
+    }
+    
+    public static function haeRyhmalla($id) {
+        // Alustetaan kysely tietokantayhteydellämme
+        $query = DB::connection()->prepare('SELECT * FROM Kayttaja '
+                . 'WHERE ryhma_id = :id '
+                . 'ORDER BY nimi');
+        // Suoritetaan kysely
+        $query->execute(array('id' => $id));
+        // Haetaan kyselyn tuottamat rivit
+        $rows = $query->fetchAll();
+        $kayttajat = array();
+
+        // Käydään kyselyn tuottamat rivit läpi
+        foreach ($rows as $row) {
+            // Tämä on PHP:n hassu syntaksi alkion lisäämiseksi taulukkoon :)
+            $kayttaja = new Kayttaja(array(
+                'id' => $row['id'],
+                'nimi' => $row['nimi'],
+                'kirjoitukset' => Kirjoitus::haeKayttajalla($row['id']),
+                'kommentteja' => sizeof(Kommentti::haeKayttajalla($row['id'])),
+                'ryhma_id' => $row['ryhma_id']
+            ));
+            $kayttaja->kirjoituksia = sizeof($kayttaja->kirjoitukset);
+            $kayttajat[] = $kayttaja;
+        }
+
+        return $kayttajat;
     }
 
     public function tallenna() {

@@ -43,12 +43,14 @@ class BaseModel {
         if (strlen($string) > $maxLength) {
             $errors[] = "Kentän \"{$kentta}\" pituuden tulee olla enintään {$maxLength} merkkiä!";
         }
-//        if($eiErikoismerkkeja) {
-//            if(!ctype_alnum($string)) {
-//                $errors[] = "Kentässä \"{$kentta}\" ei saa olla erikoismerkkejä!";
-//            }
-//        }
-
+        if($eiErikoismerkkeja) {
+            $regex = "/^([a-zA-Z0-9]+[\-|\_|\ ]?)+$/";
+            if(!preg_match($regex, $string)) {
+                $errors[] = "Kentän \"{$kentta}\" Pitää alkaa ja päättyä kirjaimella tai "
+                . "numerolla, erikoismerkkejä ei saa olla peräjälkeen. "
+                        . "Sallitut erikoismerkit: [   ], [ _ ], [ - ]";
+            }
+        } 
         return $errors;
     }
 

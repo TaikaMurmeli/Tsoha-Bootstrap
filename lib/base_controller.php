@@ -32,7 +32,7 @@ class BaseController {
 
         $user = self::get_user_logged_in();
         if ($user_id != $user->id && $user->ryhma_id > 1) {
-            Redirect::to('/', array('message' => 'Et voi poistaa toisten kirjoituksia!'));
+            Redirect::to('/', array('message' => 'Et voi muokata toisten kirjoituksia!'));
         }
     }
     

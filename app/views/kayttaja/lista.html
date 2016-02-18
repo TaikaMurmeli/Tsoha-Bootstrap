@@ -19,7 +19,7 @@
     <thead>
       <tr>
         <th>Nimi</th>
-        <th>Ryhmät</th>
+        <th>Ryhmä</th>
         <th>Kirjoitukset</th>
         <th>Kommentit</th>
         <th></th>
@@ -30,7 +30,7 @@
       {% for kayttaja in kayttajat %}
       <tr>
         <td><a href="{{base_path}}/kayttaja/{{kayttaja.id}}">{{kayttaja.nimi}}</a></td>
-        <td>Jaa</td>
+        <td>{{kayttaja.ryhma.nimi}}</td>
         <td>{{kayttaja.kirjoituksia}}</td>
         <td>{{kayttaja.kommentteja}}</td>
         <th>

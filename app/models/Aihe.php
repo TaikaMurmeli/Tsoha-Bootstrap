@@ -6,7 +6,7 @@ class Aihe extends BaseModel{
 
     public function __construct($attributes) {
         parent::__construct($attributes);
-        $this->validators = array('validate_nimi', 'validate_kuvaus');
+        $this->validators = array('validoi_nimi', 'validoi_kuvaus');
     }
 
     public static function haeKaikki() {
@@ -77,10 +77,10 @@ class Aihe extends BaseModel{
         $query->execute(array('id' =>  $this->id)); 
     }
     
-    public function validate_nimi() {
+    public function validoi_nimi() {
         return parent::validate_string('nimi', $this->nimi, 3, 30, true, true);
     }
-    public function validate_kuvaus() {
+    public function validoi_kuvaus() {
         $method='validate_string';
         return $this->{$method}('kuvaus', $this->kuvaus, 5, 200, true, false);
     }

@@ -9,9 +9,9 @@
 [Kommentti]*-++[Kirjoitus]
 [Kirjoitus]-[note:  Näkee kaikki sen lukeneet käyttäjät vaikka kuuluu vain yhdelle{bg:cornsilk}]
 
-[;Kirjautumissivu|-LoginController.php;-Kayttaja.php]->[;Etusivu|-LoginController;-Kirjoitukset.php]
+[;Kirjautumissivu|-LoginController.php;-Kayttaja.php]->[;Etusivu|-LoginController;-Kirjoitus.php]
 [;Etusivu]->[;Aiheet|-AiheController.php;-Aihe.php;-Kirjoitus.php]
-[;Etusivu]->[;Käyttäjät|-KayttajaController.php;-Kayttaja.php;-Kirjoitus.php;-Kommentti.php]
+[;Etusivu]->[;Käyttäjät|-KayttajaController.php;-Kayttaja.php;-Kirjoitus.php]
 [;Käyttäjät]->[;Kirjoitukset|-KirjoitusController.php;-Kirjoitus.php;-Kommentti.php]
 [;Aiheet]->[;Kirjoitukset]
 [;Ryhmät|-RyhmaController.php]

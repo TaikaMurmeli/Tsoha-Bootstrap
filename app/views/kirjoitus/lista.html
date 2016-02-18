@@ -26,10 +26,10 @@
         {% import "macros/forms.html" as forms %}
         <tr>
             <td><a href="{{base_path}}/kirjoitus/{{kirjoitus.id}}">{{kirjoitus.nimi}}</a></td>
-            <td>{{kirjoitus.aihe.nimi}}</td>
+            <td><a href="{{base_path}}/aihe/{{kirjoitus.aihe.id}}">{{kirjoitus.aihe.nimi}}</a></td>
             <td>{{kirjoitus.kommentteja}}</td>
             <td>{{kirjoitus.julkaistu}}</td>
-            <td>{{kirjoitus.julkaisija.nimi}}</td>
+            <td><a href="{{base_path}}/aihe/{{kirjoitus.julkaisija.id}}">{{kirjoitus.julkaisija.nimi}}</a></td>
             <th>
                 {{forms.edit_button("#{base_path}/kirjoitus/muokkaa/#{kirjoitus.id}")}}
                 {{forms.destroy_button("#{base_path}/kirjoitus/poista/#{kirjoitus.id}")}}
