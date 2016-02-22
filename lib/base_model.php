@@ -44,7 +44,7 @@ class BaseModel {
             $errors[] = "Kentän \"{$kentta}\" pituuden tulee olla enintään {$maxLength} merkkiä!";
         }
         if($eiErikoismerkkeja) {
-            $regex = "/^([a-zA-Z0-9]+[\-|\_|\ ]?)+$/";
+            $regex = "/^([a-zA-Z0-9]+[\-|\_|\ ]?)+[a-zA-Z0-9]$/";
             if(!preg_match($regex, $string)) {
                 $errors[] = "Kentän \"{$kentta}\" Pitää alkaa ja päättyä kirjaimella tai "
                 . "numerolla, erikoismerkkejä ei saa olla peräjälkeen. "

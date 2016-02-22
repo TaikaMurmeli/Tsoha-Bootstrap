@@ -9,8 +9,8 @@ class KirjoitusController extends BaseController {
     }
 
     public static function nayta($kirjoitus_id) {
-        $kayttaja = self::get_user_logged_in();
         self::check_logged_in();
+        $kayttaja = self::get_user_logged_in();
         $kirjoitus = Kirjoitus::hae($kirjoitus_id);
         $kommentit = Kommentti::haeKirjoituksella($kirjoitus_id);
         $kirjoitus->kommentteja = sizeof($kommentit);
@@ -56,6 +56,7 @@ class KirjoitusController extends BaseController {
     }
 
     public static function paivita($id) {
+        self::check_logged_in();
         $params = $_POST;
 
         $attributes = array(
@@ -83,6 +84,7 @@ class KirjoitusController extends BaseController {
     }
 
     public static function poista($id) {
+        self::check_logged_in();
         $kirjoitus = Kirjoitus::hae($id);
         self::check_self($kirjoitus->julkaisija->id);
         $kirjoitus->poista();
@@ -91,6 +93,7 @@ class KirjoitusController extends BaseController {
     }
 
     public static function poistaKommentti($id) {
+        self::check_logged_in();
         $kommentti = Kommentti::hae($id);
         self::check_self($kirjoitus->julkaisija->id);
         $kirjoitus_id = $kommentti->kirjoitus->id;
@@ -121,11 +124,15 @@ class KirjoitusController extends BaseController {
     }
 
     public static function merkitseLuetuksi($kirjoitus_id) {
-        
+        self::check_logged_in();
         $lukija = new KirjoituksenLukenutKayttaja(array(
             'kirjoitus_id' => $kirjoitus_id,
             'kayttaja_id' => self::get_user_logged_in()->id
         ));
+        if(KirjoituksenLukenutKayttaja::hae($kirjoitus_id, $lukija->kayttaja_id)) {
+            Redirect::to('/kirjoitus/' . $kirjoitus_id, array('message' =>
+            'Olet jo lukenut kirjoituksen!'));
+        }
         $lukija->tallenna();
         Redirect::to('/kirjoitus/' . $kirjoitus_id, array('message' =>
             'Kirjoitus merkattu luetuksi!'));

@@ -28,16 +28,17 @@ class KirjoituksenLukenutKayttaja extends BaseModel{
         return $lukijat;
     }
 
-    public static function hae($kayttaja_id, $lukija_id) {
+    public static function hae($kirjoitus_id, $kayttaja_id) {
         $query = DB::connection()->prepare('SELECT * FROM KirjoituksenLukenutKayttaja '
-                . 'WHERE id = :id LIMIT 1');
-        $query->execute(array('id' => $id));
+                . 'WHERE kirjoitus_id = :kirjoitus_id'
+                . ' AND kayttaja_id = :kayttaja_id');
+        $query->execute(array('kayttaja_id' => $kayttaja_id, 'kirjoitus_id' => $kirjoitus_id));
         $row = $query->fetch();
 
         if ($row) {
-            $kayttajaryhma = new Kayttajaryhma(array(
+            $kayttajaryhma = new KirjoituksenLukenutKayttaja(array(
                 'kayttaja_id' => $row['kayttaja_id'],
-                'ryhma_id' => $row['ryhma_id']));
+                'kirjoitus_id' => $row['kirjoitus_id']));
 
             return $kayttajaryhma;
         }

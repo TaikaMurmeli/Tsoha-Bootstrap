@@ -119,14 +119,6 @@ $routes->get('/logout', function() {
     LoginController::logout();
 });
 
-$routes->post('/ryhma', function() {
-    RyhmaController::tallenna();
-});
-
-$routes->get('/ryhma/uusi', function() {
-    RyhmaController::luo();
-});
-
 $routes->get('/ryhma/:id', function($id) {
     RyhmaController::nayta($id);
 });
