@@ -114,11 +114,16 @@ class Kayttaja extends BaseModel {
         }
     }
     
-    public function paivita() {
-        $query = DB::connection()->prepare('UPDATE Kayttaja SET salasana=:salasana, '
-                . 'ryhma_id=:ryhma_id '
+    public function paivitaSalasana() {
+        $query = DB::connection()->prepare('UPDATE Kayttaja SET salasana=:salasana '
                 . 'WHERE id=:id');
-        $query->execute(array('salasana' => $this->salasana, 'ryhma_id' => $this->ryhma_id,
+        $query->execute(array('salasana' => $this->salasana,
+            'id' =>  $this->id));
+    }
+    public function paivitaRyhma() {
+        $query = DB::connection()->prepare('UPDATE Kayttaja SET ryhma_id=:ryhma_id '
+                . 'WHERE id=:id');
+        $query->execute(array('ryhma_id' => $this->ryhma_id,
             'id' =>  $this->id));
     }
     

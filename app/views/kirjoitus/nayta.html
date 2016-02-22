@@ -57,7 +57,7 @@
 <strong>Julkaisija:</strong> {{kommentti.julkaisija.nimi}}
 <br>
 <strong>Julkaistu:</strong> {{kommentti.julkaistu}}
-{{forms.seen_button("#{base_path}/kommentti/nahty/#{kommentti.id}")}}
+<!--{{forms.seen_button("#{base_path}/kommentti/nahty/#{kommentti.id}")}}-->
 {% if (kommentti.julkaisija.nimi == kirjautunut_kayttaja.nimi  or kirjautunut_kayttaja.ryhma_id == 1)%}
 {{forms.destroy_button("#{base_path}/kommentti/#{kommentti.id}")}}
 {% endif %}

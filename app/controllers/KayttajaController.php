@@ -43,6 +43,7 @@ class KayttajaController extends BaseController {
     }
 
     public static function muokkaa($id) {
+
         self::check_logged_in_as_admin();
         $kayttaja = Kayttaja::hae($id);
         View::make('kayttaja/muokkaa.html', array('kayttaja' => $kayttaja));
@@ -51,26 +52,33 @@ class KayttajaController extends BaseController {
     public static function paivita($id) {
         self::check_logged_in_as_admin();
         $params = $_POST;
-
         $kayttaja = new Kayttaja(array(
             'id' => $id,
             'nimi' => $params['nimi'],
             'salasana' => $params['salasana'],
-            'ryhma_id' => intval($params['ryhma_id'])    
+            'ryhma_id' => intval($params['ryhma_id'])
         ));
-        
-        $errors = $kayttaja->errors();
-
-        if (count($errors) > 0) {
-            View::make('kayttaja/muokkaa.html', array('errors' =>
-                $errors, 'kayttaja' => $kayttaja));
-        } else {
-
-            $kayttaja->paivita();
-
-            Redirect::to('/kayttaja/' . $kayttaja->id, array('message' =>
-                'Käyttäjää on muokattu onnistuneesti!'));
+        //Omaa ryhmää ei voi muokata, ettei admin vahingossa huononna statustaan.
+        if ($id != self::get_user_logged_in()) {
+            $kayttaja->paivitaRyhma();
         }
+        else {
+            Redirect::to('/kayttajat', array('message' =>
+                'Et voi muuttaa omaa ryhmääsi!'));
+        }
+        if ($params['salasana'] != NULL) {
+
+            $errors = $kayttaja->errors();
+
+            if (count($errors) > 0) {
+                View::make('kayttaja/muokkaa.html', array('errors' =>
+                    $errors, 'kayttaja' => $kayttaja));
+            } else {
+                $kayttaja->paivitaSalasana();
+            }
+        }
+        Redirect::to('/kayttaja/' . $id, array('message' =>
+            'Käyttäjää on muokattu onnistuneesti!'));
     }
 
     public static function poista($id) {

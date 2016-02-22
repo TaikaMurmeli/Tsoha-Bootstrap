@@ -131,7 +131,7 @@ class KirjoitusController extends BaseController {
         ));
         if(KirjoituksenLukenutKayttaja::hae($kirjoitus_id, $lukija->kayttaja_id)) {
             Redirect::to('/kirjoitus/' . $kirjoitus_id, array('message' =>
-            'Olet jo lukenut kirjoituksen!'));
+            'Olet jo lukenut tämän kirjoituksen!'));
         }
         $lukija->tallenna();
         Redirect::to('/kirjoitus/' . $kirjoitus_id, array('message' =>
