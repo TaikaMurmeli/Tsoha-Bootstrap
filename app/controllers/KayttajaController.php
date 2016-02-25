@@ -44,13 +44,13 @@ class KayttajaController extends BaseController {
 
     public static function muokkaa($id) {
 
-//        self::check_logged_in_as_admin();
+        self::check_logged_in_as_admin();
         $kayttaja = Kayttaja::hae($id);
         View::make('kayttaja/muokkaa.html', array('kayttaja' => $kayttaja));
     }
 
     public static function paivita($id) {
-//        self::check_logged_in_as_admin();
+        self::check_logged_in_as_admin();
         $params = $_POST;
         $kayttaja = new Kayttaja(array(
             'id' => $id,
