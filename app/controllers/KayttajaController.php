@@ -44,13 +44,13 @@ class KayttajaController extends BaseController {
 
     public static function muokkaa($id) {
 
-        self::check_logged_in_as_admin();
+//        self::check_logged_in_as_admin();
         $kayttaja = Kayttaja::hae($id);
         View::make('kayttaja/muokkaa.html', array('kayttaja' => $kayttaja));
     }
 
     public static function paivita($id) {
-        self::check_logged_in_as_admin();
+//        self::check_logged_in_as_admin();
         $params = $_POST;
         $kayttaja = new Kayttaja(array(
             'id' => $id,
@@ -59,7 +59,7 @@ class KayttajaController extends BaseController {
             'ryhma_id' => intval($params['ryhma_id'])
         ));
         //Omaa ryhmää ei voi muokata, ettei admin vahingossa huononna statustaan.
-        if ($id != self::get_user_logged_in()) {
+        if ($id != self::get_user_logged_in()->id) {
             $kayttaja->paivitaRyhma();
         }
         else {

@@ -121,6 +121,7 @@ class Kayttaja extends BaseModel {
             'id' =>  $this->id));
     }
     public function paivitaRyhma() {
+        
         $query = DB::connection()->prepare('UPDATE Kayttaja SET ryhma_id=:ryhma_id '
                 . 'WHERE id=:id');
         $query->execute(array('ryhma_id' => $this->ryhma_id,

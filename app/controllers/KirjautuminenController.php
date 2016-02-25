@@ -1,12 +1,12 @@
 <?php
 
-class LoginController extends BaseController {
+class KirjautuminenController extends BaseController {
 
     public static function nayta() {
         View::make('login.html');
     }
 
-    public static function index() {
+    public static function etusivu() {
 //        for ($x = 2; $x <= 6; $x++) {
 //            KirjoitusController::poistaKommentti($x);
 //        } 
@@ -21,7 +21,7 @@ class LoginController extends BaseController {
             , 'kayttaja' => $kayttaja));
     }
 
-    public static function login() {
+    public static function kirjauduSisaan() {
         $params = $_POST;
 
         $userId = Kayttaja::autentikoi($params['nimi'], $params['salasana']);
@@ -37,7 +37,7 @@ class LoginController extends BaseController {
         }
     }
 
-    public static function logout() {
+    public static function kirjauduUlos() {
         self::check_logged_in();
         $_SESSION['user'] = null;
         Redirect::to('/login', array('message' => 'Olet kirjautunut ulos!'));

@@ -1,11 +1,7 @@
 <?php
 
 $routes->get('/', function() {
-    LoginController::index();
-});
-    
-$routes->get('/hiekkalaatikko', function() {
-    HelloWorldController::sandbox();
+    KirjautuminenController::etusivu();
 });
 
 $routes->post('/aihe', function() {
@@ -108,15 +104,15 @@ $routes->post('/kommentti/:id', function($id) {
 });
 
 $routes->get('/login', function() {
-    LoginController::nayta();
+    KirjautuminenController::nayta();
 });
 
 $routes->post('/login', function() {
-    LoginController::login();
+    KirjautuminenController::kirjauduSisaan();
 });
 
 $routes->get('/logout', function() {
-    LoginController::logout();
+    KirjautuminenController::kirjauduUlos();
 });
 
 $routes->get('/ryhma/:id', function($id) {
